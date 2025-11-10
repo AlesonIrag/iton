@@ -7,6 +7,9 @@ export default function About({ openProfileModal, isAdminMode }) {
     const savedImage = localStorage.getItem('profilePictureUrl')
     if (savedImage) {
       setProfileImage(savedImage)
+    } else {
+      // Use default profile image
+      setProfileImage('/profile.jpg')
     }
   }, [])
 
