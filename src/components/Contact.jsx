@@ -16,39 +16,51 @@ export default function Contact() {
     })
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     setIsSubmitting(true)
 
-    // Create mailto link with form data
-    const subject = encodeURIComponent(`Portfolio Contact from ${formData.name}`)
-    const body = encodeURIComponent(
-      `Name: ${formData.name}\n` +
-      `Email: ${formData.email}\n\n` +
-      `Message:\n${formData.message}`
-    )
-    
-    const mailtoLink = `mailto:iragaleson@gmail.com?subject=${subject}&body=${body}`
-    
-    // Open email client
-    window.location.href = mailtoLink
-    
-    // Show success message
-    setTimeout(() => {
-      showNotification('Opening your email client...')
+    try {
+      // Web3Forms - Simple and reliable
+      // Get your access key from: https://web3forms.com/
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          access_key: 'YOUR_WEB3FORMS_ACCESS_KEY', // Replace with your key from web3forms.com
+          name: formData.name,
+          email: formData.email,
+          message: formData.message,
+          subject: `Portfolio Contact from ${formData.name}`
+        })
+      })
+
+      const result = await response.json()
+
+      if (result.success) {
+        showNotification('Message sent successfully! 🎉', 'success')
+        setFormData({ name: '', email: '', message: '' })
+        setShowModal(false)
+      } else {
+        showNotification('Failed to send. Please try again.', 'error')
+      }
+    } catch (error) {
+      console.error('Error:', error)
+      showNotification('Failed to send. Please try again.', 'error')
+    } finally {
       setIsSubmitting(false)
-      // Reset form
-      setFormData({ name: '', email: '', message: '' })
-      setShowModal(false)
-    }, 500)
+    }
   }
 
-  const showNotification = (message) => {
+  const showNotification = (message, type = 'success') => {
     const notification = document.createElement('div')
+    const bgColor = type === 'success' ? 'rgba(16, 185, 129, 0.95)' : 'rgba(239, 68, 68, 0.95)'
     notification.style.cssText = `
       position: fixed; top: 20px; right: 20px; z-index: 10000;
       padding: 12px 20px; border-radius: 8px; font-size: 14px;
-      background: rgba(16, 185, 129, 0.95); color: white;
+      background: ${bgColor}; color: white;
       box-shadow: 0 4px 12px rgba(0,0,0,0.15);
       animation: slideIn 0.3s ease-out;
     `

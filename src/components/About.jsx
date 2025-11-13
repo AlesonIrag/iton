@@ -71,11 +71,15 @@ export default function About({ openProfileModal, isAdminMode }) {
 
             {/* Social links */}
             <div className="flex space-x-4 pt-4">
+              <a href="mailto:iragaleson@gmail.com"
+                className="glass p-4 rounded-xl hover:scale-110 transition-all hover:shadow-lg hover:shadow-red-500/50">
+                <i className="fas fa-envelope text-2xl"></i>
+              </a>
               <a href="https://github.com/AlesonIrag" target="_blank" rel="noopener noreferrer"
                 className="glass p-4 rounded-xl hover:scale-110 transition-all hover:shadow-lg hover:shadow-indigo-500/50">
                 <i className="fab fa-github text-2xl"></i>
               </a>
-              <a href="https://www.facebook.com/profile.php?id=100089181777906" target="_blank" rel="noopener noreferrer"
+              <a href="https://www.facebook.com/Aleson420" target="_blank" rel="noopener noreferrer"
                 className="glass p-4 rounded-xl hover:scale-110 transition-all hover:shadow-lg hover:shadow-blue-500/50">
                 <i className="fab fa-facebook text-2xl"></i>
               </a>

@@ -56,6 +56,7 @@ export default function Navbar({ isAdminMode, toggleAdminMode }) {
               <a onClick={() => scrollToSection('about')} className="hover:text-blue-400 transition-all duration-300 hover:glow-text cursor-pointer">About</a>
               <a onClick={() => scrollToSection('skills')} className="hover:text-blue-400 transition-all duration-300 hover:glow-text cursor-pointer">Skills</a>
               <a onClick={() => scrollToSection('projects')} className="hover:text-blue-400 transition-all duration-300 hover:glow-text cursor-pointer">Projects</a>
+              <a onClick={() => window.dispatchEvent(new CustomEvent('openCV'))} className="hover:text-blue-400 transition-all duration-300 hover:glow-text cursor-pointer">CV</a>
               <a onClick={() => scrollToSection('contact')} className="hover:text-blue-400 transition-all duration-300 hover:glow-text cursor-pointer">Contact</a>
             </div>
             <button 
@@ -76,6 +77,7 @@ export default function Navbar({ isAdminMode, toggleAdminMode }) {
             <a onClick={() => scrollToSection('about')} className="hover:text-blue-400 transition-colors cursor-pointer">About</a>
             <a onClick={() => scrollToSection('skills')} className="hover:text-blue-400 transition-colors cursor-pointer">Skills</a>
             <a onClick={() => scrollToSection('projects')} className="hover:text-blue-400 transition-colors cursor-pointer">Projects</a>
+            <a onClick={() => window.dispatchEvent(new CustomEvent('openCV'))} className="hover:text-blue-400 transition-colors cursor-pointer">CV</a>
             <a onClick={() => scrollToSection('contact')} className="hover:text-blue-400 transition-colors cursor-pointer">Contact</a>
           </div>
         </div>

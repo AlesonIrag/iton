@@ -162,7 +162,7 @@ export default function Footer({ isAdminMode }) {
             <i className="fab fa-github text-xl"></i>
           </a>
           <a 
-            href="https://www.facebook.com/profile.php?id=100089181777906" 
+            href="https://www.facebook.com/Aleson420" 
             target="_blank" 
             rel="noopener noreferrer"
             className="text-gray-400 hover:text-blue-400 transition-colors"
