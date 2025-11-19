@@ -71,13 +71,24 @@ export default function Navbar({ isAdminMode, toggleAdminMode }) {
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="fixed inset-0 z-40 bg-black bg-opacity-98">
+        <div 
+          className="fixed inset-0 z-40 bg-black bg-opacity-98"
+          onClick={() => setIsMobileMenuOpen(false)}
+        >
+          {/* Close button */}
+          <button 
+            className="absolute top-6 right-6 text-white hover:text-blue-400 transition-colors"
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            <i className="fas fa-times text-3xl"></i>
+          </button>
+          
           <div className="flex flex-col items-center justify-center h-full space-y-8 text-xl">
             <a onClick={() => scrollToSection('home')} className="hover:text-blue-400 transition-colors cursor-pointer">Home</a>
             <a onClick={() => scrollToSection('about')} className="hover:text-blue-400 transition-colors cursor-pointer">About</a>
             <a onClick={() => scrollToSection('skills')} className="hover:text-blue-400 transition-colors cursor-pointer">Skills</a>
             <a onClick={() => scrollToSection('projects')} className="hover:text-blue-400 transition-colors cursor-pointer">Projects</a>
-            <a onClick={() => window.dispatchEvent(new CustomEvent('openCV'))} className="hover:text-blue-400 transition-colors cursor-pointer">CV</a>
+            <a onClick={() => { window.dispatchEvent(new CustomEvent('openCV')); setIsMobileMenuOpen(false); }} className="hover:text-blue-400 transition-colors cursor-pointer">CV</a>
             <a onClick={() => scrollToSection('contact')} className="hover:text-blue-400 transition-colors cursor-pointer">Contact</a>
           </div>
         </div>
