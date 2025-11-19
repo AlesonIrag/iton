@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react'
+import { db } from '../firebase'
+import { ref, get, set } from 'firebase/database'
 
 export default function Footer({ isAdminMode }) {
   const [year, setYear] = useState('')
   const [message, setMessage] = useState('')
   const [isEditingYear, setIsEditingYear] = useState(false)
   const [isEditingMessage, setIsEditingMessage] = useState(false)
+  const [isSaving, setIsSaving] = useState(false)
 
   const inspirationalMessages = [
     'Built with ❤ using React & Tailwind CSS',
@@ -25,11 +28,37 @@ export default function Footer({ isAdminMode }) {
   ]
 
   useEffect(() => {
-    // Load saved values or use defaults
-    const savedYear = localStorage.getItem('footerYear') || new Date().getFullYear().toString()
-    const savedMessage = localStorage.getItem('footerMessage') || 'Built with ❤ using React & Tailwind CSS'
-    setYear(savedYear)
-    setMessage(savedMessage)
+    const loadFooterData = async () => {
+      try {
+        // Try to load from Firebase Realtime Database
+        const dbRef = ref(db, 'portfolio/footer')
+        const snapshot = await get(dbRef)
+        
+        if (snapshot.exists()) {
+          const data = snapshot.val()
+          setYear(data.year || new Date().getFullYear().toString())
+          setMessage(data.message || 'Built with ❤ using React & Tailwind CSS')
+          // Save to localStorage as backup
+          localStorage.setItem('footerYear', data.year)
+          localStorage.setItem('footerMessage', data.message)
+        } else {
+          // Fallback to localStorage or defaults
+          const savedYear = localStorage.getItem('footerYear') || new Date().getFullYear().toString()
+          const savedMessage = localStorage.getItem('footerMessage') || 'Built with ❤ using React & Tailwind CSS'
+          setYear(savedYear)
+          setMessage(savedMessage)
+        }
+      } catch (error) {
+        console.error('Error loading footer:', error)
+        // Fallback to localStorage or defaults
+        const savedYear = localStorage.getItem('footerYear') || new Date().getFullYear().toString()
+        const savedMessage = localStorage.getItem('footerMessage') || 'Built with ❤ using React & Tailwind CSS'
+        setYear(savedYear)
+        setMessage(savedMessage)
+      }
+    }
+
+    loadFooterData()
   }, [])
 
   const generateRandomMessage = () => {
@@ -39,24 +68,59 @@ export default function Footer({ isAdminMode }) {
     showNotification('New message generated! Click ✓ to save.')
   }
 
-  const handleYearSave = () => {
-    localStorage.setItem('footerYear', year)
-    setIsEditingYear(false)
-    showNotification('Year updated!')
+  const handleYearSave = async () => {
+    setIsSaving(true)
+    try {
+      // Save to Firebase Realtime Database
+      await set(ref(db, 'portfolio/footer'), {
+        year: year,
+        message: message,
+        updatedAt: new Date().toISOString()
+      })
+      
+      // Also save to localStorage as backup
+      localStorage.setItem('footerYear', year)
+      
+      setIsEditingYear(false)
+      showNotification('Year updated! 🎉')
+    } catch (error) {
+      console.error('Error saving year:', error)
+      showNotification('Failed to save. Check console.', 'error')
+    } finally {
+      setIsSaving(false)
+    }
   }
 
-  const handleMessageSave = () => {
-    localStorage.setItem('footerMessage', message)
-    setIsEditingMessage(false)
-    showNotification('Message updated!')
+  const handleMessageSave = async () => {
+    setIsSaving(true)
+    try {
+      // Save to Firebase Realtime Database
+      await set(ref(db, 'portfolio/footer'), {
+        year: year,
+        message: message,
+        updatedAt: new Date().toISOString()
+      })
+      
+      // Also save to localStorage as backup
+      localStorage.setItem('footerMessage', message)
+      
+      setIsEditingMessage(false)
+      showNotification('Message updated! 🎉')
+    } catch (error) {
+      console.error('Error saving message:', error)
+      showNotification('Failed to save. Check console.', 'error')
+    } finally {
+      setIsSaving(false)
+    }
   }
 
-  const showNotification = (text) => {
+  const showNotification = (text, type = 'success') => {
     const notification = document.createElement('div')
+    const bgColor = type === 'success' ? 'rgba(16, 185, 129, 0.95)' : 'rgba(239, 68, 68, 0.95)'
     notification.style.cssText = `
       position: fixed; top: 20px; right: 20px; z-index: 10000;
       padding: 12px 20px; border-radius: 8px; font-size: 14px;
-      background: rgba(16, 185, 129, 0.95); color: white;
+      background: ${bgColor}; color: white;
       box-shadow: 0 4px 12px rgba(0,0,0,0.15);
       animation: slideIn 0.3s ease-out;
     `

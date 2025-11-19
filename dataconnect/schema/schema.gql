@@ -1,0 +1,53 @@
+type User @table {
+  username: String!
+  email: String!
+  passwordHash: String!
+  createdAt: Timestamp!
+  displayName: String
+  title: String
+  bio: String
+  contactEmail: String
+  phoneNumber: String
+  socialLinks: String
+}
+
+type Portfolio @table {
+  user: User!
+  urlSlug: String!
+  isPublished: Boolean!
+  createdAt: Timestamp!
+  updatedAt: Timestamp!
+  theme: String
+  primaryColor: String
+  secondaryColor: String
+  font: String
+}
+
+type Project @table {
+  portfolio: Portfolio!
+  title: String!
+  description: String!
+  createdAt: Timestamp!
+  orderIndex: Int!
+  liveUrl: String
+  githubUrl: String
+  technologiesUsed: [String]
+}
+
+type Media @table {
+  project: Project!
+  fileUrl: String!
+  mediaType: String!
+  createdAt: Timestamp!
+  orderIndex: Int!
+  caption: String
+}
+
+type Section @table {
+  portfolio: Portfolio!
+  title: String!
+  contentType: String!
+  createdAt: Timestamp!
+  orderIndex: Int!
+  content: String
+}

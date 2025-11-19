@@ -8,6 +8,7 @@ import CV from './components/CV'
 import Contact from './components/Contact'
 import ProfileModal from './components/ProfileModal'
 import Footer from './components/Footer'
+import FirebaseTest from './components/FirebaseTest'
 
 function App() {
   const [isAdminMode, setIsAdminMode] = useState(false)
@@ -88,6 +89,7 @@ function App() {
           onClose={() => setShowProfileModal(false)}
         />
       )}
+      {/* {isAdminMode && <FirebaseTest />} */}
     </div>
   )
 }

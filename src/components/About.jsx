@@ -1,16 +1,35 @@
 import { useState, useEffect } from 'react'
+import { db } from '../firebase'
+import { ref, get } from 'firebase/database'
 
 export default function About({ openProfileModal, isAdminMode }) {
   const [profileImage, setProfileImage] = useState(null)
 
   useEffect(() => {
-    const savedImage = localStorage.getItem('profilePictureUrl')
-    if (savedImage) {
-      setProfileImage(savedImage)
-    } else {
-      // Use default profile image
-      setProfileImage('/profile.jpg')
+    const loadProfileImage = async () => {
+      try {
+        // Try to load from Firebase Realtime Database
+        const dbRef = ref(db, 'portfolio/profile')
+        const snapshot = await get(dbRef)
+        
+        if (snapshot.exists()) {
+          const data = snapshot.val()
+          setProfileImage(data.imageUrl)
+          localStorage.setItem('profilePictureUrl', data.imageUrl)
+        } else {
+          // Fallback to localStorage or default
+          const savedImage = localStorage.getItem('profilePictureUrl')
+          setProfileImage(savedImage || '/profile.jpg')
+        }
+      } catch (error) {
+        console.error('Error loading profile:', error)
+        // Fallback to localStorage or default
+        const savedImage = localStorage.getItem('profilePictureUrl')
+        setProfileImage(savedImage || '/profile.jpg')
+      }
     }
+
+    loadProfileImage()
   }, [])
 
   return (
@@ -71,10 +90,6 @@ export default function About({ openProfileModal, isAdminMode }) {
 
             {/* Social links */}
             <div className="flex space-x-4 pt-4">
-              <a href="mailto:iragaleson@gmail.com"
-                className="glass p-4 rounded-xl hover:scale-110 transition-all hover:shadow-lg hover:shadow-red-500/50">
-                <i className="fas fa-envelope text-2xl"></i>
-              </a>
               <a href="https://github.com/AlesonIrag" target="_blank" rel="noopener noreferrer"
                 className="glass p-4 rounded-xl hover:scale-110 transition-all hover:shadow-lg hover:shadow-indigo-500/50">
                 <i className="fab fa-github text-2xl"></i>

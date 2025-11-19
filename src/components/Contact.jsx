@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import emailjs from '@emailjs/browser'
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -8,6 +9,16 @@ export default function Contact() {
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [showModal, setShowModal] = useState(false)
+
+  // Replace these with your EmailJS credentials
+  const serviceId = 'service_c7amqha'      // From EmailJS dashboard
+  const templateId = 'template_rftrovp'    // From EmailJS dashboard
+  const publicKey = 'ppyPHgFmLUTmk8A0v'      // From EmailJS dashboard
+
+  // Initialize EmailJS
+  useEffect(() => {
+    emailjs.init(publicKey)
+  }, [])
 
   const handleChange = (e) => {
     setFormData({
@@ -21,25 +32,25 @@ export default function Contact() {
     setIsSubmitting(true)
 
     try {
-      // Web3Forms - Simple and reliable
-      // Get your access key from: https://web3forms.com/
-      const response = await fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          access_key: 'YOUR_WEB3FORMS_ACCESS_KEY', // Replace with your key from web3forms.com
-          name: formData.name,
-          email: formData.email,
-          message: formData.message,
-          subject: `Portfolio Contact from ${formData.name}`
-        })
-      })
+      // Send email using EmailJS
+      const templateParams = {
+        from_name: formData.name,
+        from_email: formData.email,
+        message: formData.message,
+        to_name: 'Aleson Irag' // Your name
+      }
 
-      const result = await response.json()
+      console.log('Sending email with params:', templateParams)
 
-      if (result.success) {
+      const response = await emailjs.send(
+        serviceId,
+        templateId,
+        templateParams
+      )
+
+      console.log('EmailJS Response:', response)
+
+      if (response.status === 200) {
         showNotification('Message sent successfully! 🎉', 'success')
         setFormData({ name: '', email: '', message: '' })
         setShowModal(false)
@@ -47,8 +58,8 @@ export default function Contact() {
         showNotification('Failed to send. Please try again.', 'error')
       }
     } catch (error) {
-      console.error('Error:', error)
-      showNotification('Failed to send. Please try again.', 'error')
+      console.error('EmailJS Error Details:', error)
+      showNotification(`Error: ${error.text || error.message || 'Failed to send'}`, 'error')
     } finally {
       setIsSubmitting(false)
     }
@@ -83,8 +94,7 @@ export default function Contact() {
             onClick={() => setShowModal(true)}
             className="group relative px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full font-semibold text-lg overflow-hidden transition-all hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/50"
           >
-            <span className="relative z-10 flex items-center gap-3">
-              <i className="fas fa-envelope text-xl"></i>
+            <span className="relative z-10">
               Send a Message
             </span>
             <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 opacity-0 group-hover:opacity-100 transition-opacity"></div>

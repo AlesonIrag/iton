@@ -1,16 +1,42 @@
 import { useState, useEffect } from 'react'
+import { db } from '../firebase'
+import { ref, get } from 'firebase/database'
 
 export default function Hero({ openProfileModal, isAdminMode }) {
   const [profileImage, setProfileImage] = useState(null)
 
   useEffect(() => {
-    const savedImage = localStorage.getItem('profilePictureUrl')
-    if (savedImage) {
-      setProfileImage(savedImage)
-    } else {
-      // Use default profile image
-      setProfileImage('/profile.jpg')
+    const loadProfileImage = async () => {
+      console.log('Loading profile image...')
+      try {
+        // Try to load from Firebase Realtime Database
+        const dbRef = ref(db, 'portfolio/profile')
+        const snapshot = await get(dbRef)
+        
+        console.log('Firebase snapshot exists:', snapshot.exists())
+        
+        if (snapshot.exists()) {
+          const data = snapshot.val()
+          console.log('Loaded from Firebase:', data)
+          setProfileImage(data.imageUrl)
+          localStorage.setItem('profilePictureUrl', data.imageUrl)
+        } else {
+          console.log('No data in Firebase, checking localStorage')
+          // Fallback to localStorage or default
+          const savedImage = localStorage.getItem('profilePictureUrl')
+          console.log('localStorage image:', savedImage ? 'exists' : 'not found')
+          setProfileImage(savedImage || '/profile.jpg')
+        }
+      } catch (error) {
+        console.error('Error loading profile from Firebase:', error)
+        // Fallback to localStorage or default
+        const savedImage = localStorage.getItem('profilePictureUrl')
+        console.log('Fallback to localStorage:', savedImage ? 'exists' : 'not found')
+        setProfileImage(savedImage || '/profile.jpg')
+      }
     }
+
+    loadProfileImage()
   }, [])
 
   return (
