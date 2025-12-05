@@ -1,6 +1,15 @@
 export default function Projects() {
   const projects = [
     {
+      title: 'Library System',
+      description: 'Comprehensive library management system for Benedicto College with book cataloging, user management, and borrowing tracking',
+      icon: 'fas fa-book',
+      gradient: 'from-green-500 via-teal-500 to-cyan-500',
+      tags: ['PHP', 'MySQL', 'JavaScript'],
+      link: 'https://benedictocollege-library.org/',
+      bgImage: '/library-bg.jpg'
+    },
+    {
       title: 'E-Commerce Platform',
       description: 'Modern online shopping platform with responsive design, product catalog, and seamless user experience',
       icon: 'fas fa-shopping-cart',
@@ -32,10 +41,11 @@ export default function Projects() {
               className="group relative glass rounded-2xl overflow-hidden card-hover cursor-pointer"
               style={{ animationDelay: `${index * 0.2}s` }}
             >
-              {/* Gradient background */}
-              <div className={`relative h-56 bg-gradient-to-br ${project.gradient} flex items-center justify-center overflow-hidden`}>
-                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors"></div>
-                <i className={`${project.icon} text-7xl text-white relative z-10 group-hover:scale-125 transition-transform duration-500`}></i>
+              {/* Background - Image or Gradient */}
+              <div className={`relative h-56 ${project.bgImage ? 'bg-cover bg-center' : `bg-gradient-to-br ${project.gradient}`} flex items-center justify-center overflow-hidden`}
+                style={project.bgImage ? { backgroundImage: `url(${project.bgImage})` } : {}}>
+                <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition-colors"></div>
+                <i className={`${project.icon} text-7xl text-white relative z-10 group-hover:scale-125 transition-transform duration-500 drop-shadow-lg`}></i>
                 
                 {/* Animated circles */}
                 <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
