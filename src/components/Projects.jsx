@@ -46,7 +46,6 @@ export default function Projects() {
               <div className={`relative h-56 ${project.bgImage ? 'bg-cover bg-center' : `bg-gradient-to-br ${project.gradient}`} flex items-center justify-center overflow-hidden`}
                 style={project.bgImage ? { backgroundImage: `url(${project.bgImage})` } : {}}>
                 <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition-colors"></div>
-                <i className={`${project.icon} text-7xl text-white relative z-10 group-hover:scale-125 transition-transform duration-500 drop-shadow-lg`}></i>
                 
                 {/* Animated circles */}
                 <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
