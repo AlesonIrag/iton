@@ -23,7 +23,8 @@ export default function Projects() {
       icon: 'fas fa-laptop-code',
       gradient: 'from-purple-500 via-pink-500 to-red-500',
       tags: ['React', 'Vite', 'Tailwind CSS'],
-      link: window.location.origin
+      link: window.location.origin,
+      bgImage: '/portfolio-bg.jpg'
     }
   ]
 
