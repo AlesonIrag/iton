@@ -116,7 +116,7 @@ export default function CV() {
           
           <div class="education-item">
             <h3>Benedicto College</h3>
-            <p><strong>2020 - 2021</strong> | A.S. Fortuna St. Mandaue City</p>
+            <p><strong>2020 - 2022</strong> | A.S. Fortuna St. Mandaue City</p>
             <p>Senior High School</p>
           </div>
           
@@ -273,7 +273,7 @@ export default function CV() {
                     {/* Senior High */}
                     <div className="relative pl-8 border-l-2 border-gray-600">
                       <div className="absolute -left-2 top-0 w-4 h-4 bg-gray-600 rounded-full"></div>
-                      <div className="text-sm text-gray-400 mb-1">2020 - 2021</div>
+                      <div className="text-sm text-gray-400 mb-1">2020 - 2022</div>
                       <h4 className="text-lg font-semibold text-white mb-1">Benedicto College</h4>
                       <p className="text-gray-400 text-sm">A.S. Fortuna St. Mandaue City</p>
                       <p className="text-gray-300 text-sm mt-2">Senior High School</p>
