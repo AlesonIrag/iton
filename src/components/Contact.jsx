@@ -11,7 +11,7 @@ export default function Contact() {
   const [showModal, setShowModal] = useState(false)
 
   // Replace these with your EmailJS credentials
-  const serviceId = 'service_c7amqha'      // From EmailJS dashboard
+  const serviceId = 'service_xlx9vc9'      // From EmailJS dashboard
   const templateId = 'template_rftrovp'    // From EmailJS dashboard
   const publicKey = 'ppyPHgFmLUTmk8A0v'      // From EmailJS dashboard
 
