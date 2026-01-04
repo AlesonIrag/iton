@@ -20,9 +20,14 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+console.log('✅ Firebase app initialized successfully');
+
 const analytics = getAnalytics(app);
+console.log('✅ Firebase Analytics initialized');
 
 // Initialize Realtime Database
 export const db = getDatabase(app);
+console.log('✅ Firebase Realtime Database initialized');
+console.log('🔗 Database URL:', firebaseConfig.databaseURL);
 
 export default app;

@@ -70,32 +70,47 @@ export default function ProfileModal({ target, onClose }) {
       return
     }
 
+    console.log('🚀 Starting profile picture save...')
     setIsUploading(true)
 
     try {
+      console.log('💾 Saving to Firebase Realtime Database...')
       // Save to Firebase Realtime Database
       await set(ref(db, 'portfolio/profile'), {
         imageUrl: currentImageData,
         updatedAt: new Date().toISOString()
       })
+      console.log('✅ Successfully saved to Firebase!')
 
       // Update images immediately
       const heroImg = document.getElementById('hero-profile-img')
       const aboutImg = document.getElementById('about-profile-img')
       
-      if (heroImg) heroImg.src = currentImageData
-      if (aboutImg) aboutImg.src = currentImageData
+      if (heroImg) {
+        heroImg.src = currentImageData
+        console.log('✅ Updated hero image')
+      }
+      if (aboutImg) {
+        aboutImg.src = currentImageData
+        console.log('✅ Updated about image')
+      }
 
       // Also save to localStorage as backup
       localStorage.setItem('profilePictureUrl', currentImageData)
+      console.log('✅ Saved to localStorage as backup')
       
       showNotification('Profile updated successfully! 🎉')
       onClose()
     } catch (error) {
-      console.error('Error saving profile:', error)
+      console.error('❌ Error saving profile:', error)
+      console.error('Error details:', {
+        code: error.code,
+        message: error.message,
+        stack: error.stack
+      })
       const errorMsg = error.message || 'Unknown error'
       showNotification(`Error: ${errorMsg}`, 'error')
-      alert(`Failed to save profile picture.\n\nError: ${errorMsg}\n\nMake sure:\n1. Firestore is enabled in Firebase Console\n2. Security rules allow writes\n3. Check browser console for details`)
+      alert(`Failed to save profile picture.\n\nError: ${errorMsg}\n\nMake sure:\n1. Realtime Database is enabled in Firebase Console\n2. Security rules allow writes\n3. Check browser console for details`)
     } finally {
       setIsUploading(false)
     }
