@@ -31,53 +31,36 @@ export default function Contact() {
     e.preventDefault()
     setIsSubmitting(true)
 
+    // Simple mailto fallback - always works
+    const subject = `Portfolio Contact from ${formData.name}`
+    const body = `Name: ${formData.name}%0D%0AEmail: ${formData.email}%0D%0A%0D%0AMessage:%0D%0A${formData.message}`
+    const mailtoLink = `mailto:alesoncirag@gmail.com?subject=${encodeURIComponent(subject)}&body=${body}`
+    
     try {
-      // Send email using EmailJS
+      // Try EmailJS first
       const templateParams = {
         from_name: formData.name,
         from_email: formData.email,
         message: formData.message,
-        to_name: 'Aleson Irag' // Your name
+        to_name: 'Aleson Irag'
       }
 
-      console.log('Sending email with params:', templateParams)
-
-      const response = await emailjs.send(
-        serviceId,
-        templateId,
-        templateParams
-      )
-
-      console.log('EmailJS Response:', response)
-
+      console.log('Attempting EmailJS send...')
+      const response = await emailjs.send(serviceId, templateId, templateParams)
+      
       if (response.status === 200) {
         showNotification('Message sent successfully! 🎉', 'success')
         setFormData({ name: '', email: '', message: '' })
         setShowModal(false)
-      } else {
-        showNotification('Failed to send. Please try again.', 'error')
       }
     } catch (error) {
-      console.error('EmailJS Error Details:', error)
+      console.error('EmailJS failed, using mailto fallback:', error)
       
-      let errorMessage = 'Failed to send message'
-      
-      if (error.text && error.text.includes('Invalid grant')) {
-        errorMessage = 'Email service needs reconnection. Please contact me directly at alesoncirag@gmail.com'
-      } else if (error.text) {
-        errorMessage = error.text
-      } else if (error.message) {
-        errorMessage = error.message
-      }
-      
-      showNotification(errorMessage, 'error')
-      
-      // Show alternative contact info for Gmail API errors
-      if (error.text && error.text.includes('Invalid grant')) {
-        setTimeout(() => {
-          alert('Email service temporarily unavailable.\n\nPlease contact me directly:\n📧 alesoncirag@gmail.com\n📱 Facebook: Aleson420')
-        }, 1000)
-      }
+      // Always use mailto as fallback
+      window.open(mailtoLink, '_blank')
+      showNotification('Opening your email client...', 'info')
+      setFormData({ name: '', email: '', message: '' })
+      setShowModal(false)
     } finally {
       setIsSubmitting(false)
     }
@@ -85,7 +68,10 @@ export default function Contact() {
 
   const showNotification = (message, type = 'success') => {
     const notification = document.createElement('div')
-    const bgColor = type === 'success' ? 'rgba(16, 185, 129, 0.95)' : 'rgba(239, 68, 68, 0.95)'
+    let bgColor = 'rgba(16, 185, 129, 0.95)'
+    if (type === 'error') bgColor = 'rgba(239, 68, 68, 0.95)'
+    if (type === 'info') bgColor = 'rgba(59, 130, 246, 0.95)'
+    
     notification.style.cssText = `
       position: fixed; top: 20px; right: 20px; z-index: 10000;
       padding: 12px 20px; border-radius: 8px; font-size: 14px;
