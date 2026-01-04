@@ -102,15 +102,36 @@ export default function ProfileModal({ target, onClose }) {
       showNotification('Profile updated successfully! 🎉')
       onClose()
     } catch (error) {
-      console.error('❌ Error saving profile:', error)
-      console.error('Error details:', {
-        code: error.code,
-        message: error.message,
-        stack: error.stack
-      })
-      const errorMsg = error.message || 'Unknown error'
-      showNotification(`Error: ${errorMsg}`, 'error')
-      alert(`Failed to save profile picture.\n\nError: ${errorMsg}\n\nMake sure:\n1. Realtime Database is enabled in Firebase Console\n2. Security rules allow writes\n3. Check browser console for details`)
+      console.error('❌ Firebase Error:', error)
+      
+      // If Firebase fails, still update the UI and use localStorage
+      console.log('🔄 Firebase failed, using localStorage fallback...')
+      
+      // Update images immediately
+      const heroImg = document.getElementById('hero-profile-img')
+      const aboutImg = document.getElementById('about-profile-img')
+      
+      if (heroImg) {
+        heroImg.src = currentImageData
+        console.log('✅ Updated hero image (fallback)')
+      }
+      if (aboutImg) {
+        aboutImg.src = currentImageData
+        console.log('✅ Updated about image (fallback)')
+      }
+
+      // Save to localStorage as primary storage
+      localStorage.setItem('profilePictureUrl', currentImageData)
+      console.log('✅ Saved to localStorage (fallback mode)')
+      
+      if (error.code === 'PERMISSION_DENIED') {
+        showNotification('Profile updated locally! (Firebase rules need fixing)', 'info')
+        alert('Profile updated locally!\n\nTo sync with Firebase:\n1. Go to Firebase Console\n2. Realtime Database → Rules\n3. Set rules to allow writes\n\nSee FIREBASE_RULES_SETUP.md for details')
+      } else {
+        showNotification('Profile updated locally!', 'info')
+      }
+      
+      onClose()
     } finally {
       setIsUploading(false)
     }
