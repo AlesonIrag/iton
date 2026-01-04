@@ -59,7 +59,25 @@ export default function Contact() {
       }
     } catch (error) {
       console.error('EmailJS Error Details:', error)
-      showNotification(`Error: ${error.text || error.message || 'Failed to send'}`, 'error')
+      
+      let errorMessage = 'Failed to send message'
+      
+      if (error.text && error.text.includes('Invalid grant')) {
+        errorMessage = 'Email service needs reconnection. Please contact me directly at alesoncirag@gmail.com'
+      } else if (error.text) {
+        errorMessage = error.text
+      } else if (error.message) {
+        errorMessage = error.message
+      }
+      
+      showNotification(errorMessage, 'error')
+      
+      // Show alternative contact info for Gmail API errors
+      if (error.text && error.text.includes('Invalid grant')) {
+        setTimeout(() => {
+          alert('Email service temporarily unavailable.\n\nPlease contact me directly:\n📧 alesoncirag@gmail.com\n📱 Facebook: Aleson420')
+        }, 1000)
+      }
     } finally {
       setIsSubmitting(false)
     }
