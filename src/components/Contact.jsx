@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import emailjs from '@emailjs/browser'
+import useScrollReveal from '../hooks/useScrollReveal'
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -9,11 +10,13 @@ export default function Contact() {
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [showModal, setShowModal] = useState(false)
+  const [sectionRef, isVisible] = useScrollReveal({ threshold: 0.15 })
+  const [focusedField, setFocusedField] = useState(null)
 
   // Replace these with your EmailJS credentials
-  const serviceId = 'service_xlx9vc9'      // From EmailJS dashboard
-  const templateId = 'template_rftrovp'    // From EmailJS dashboard
-  const publicKey = 'ppyPHgFmLUTmk8A0v'      // From EmailJS dashboard
+  const serviceId = 'service_xlx9vc9'
+  const templateId = 'template_rftrovp'
+  const publicKey = 'ppyPHgFmLUTmk8A0v'
 
   // Initialize EmailJS
   useEffect(() => {
@@ -31,13 +34,11 @@ export default function Contact() {
     e.preventDefault()
     setIsSubmitting(true)
 
-    // Simple mailto fallback - always works
     const subject = `Portfolio Contact from ${formData.name}`
     const body = `Name: ${formData.name}%0D%0AEmail: ${formData.email}%0D%0A%0D%0AMessage:%0D%0A${formData.message}`
     const mailtoLink = `mailto:alesoncirag@gmail.com?subject=${encodeURIComponent(subject)}&body=${body}`
     
     try {
-      // Try EmailJS first
       const templateParams = {
         from_name: formData.name,
         from_email: formData.email,
@@ -45,7 +46,6 @@ export default function Contact() {
         to_name: 'Aleson Irag'
       }
 
-      console.log('Attempting EmailJS send...')
       const response = await emailjs.send(serviceId, templateId, templateParams)
       
       if (response.status === 200) {
@@ -55,8 +55,6 @@ export default function Contact() {
       }
     } catch (error) {
       console.error('EmailJS failed, using mailto fallback:', error)
-      
-      // Always use mailto as fallback
       window.open(mailtoLink, '_blank')
       showNotification('Opening your email client...', 'info')
       setFormData({ name: '', email: '', message: '' })
@@ -74,101 +72,198 @@ export default function Contact() {
     
     notification.style.cssText = `
       position: fixed; top: 20px; right: 20px; z-index: 10000;
-      padding: 12px 20px; border-radius: 8px; font-size: 14px;
+      padding: 14px 24px; border-radius: 16px; font-size: 14px;
       background: ${bgColor}; color: white;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-      animation: slideIn 0.3s ease-out;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+      backdrop-filter: blur(10px);
+      animation: fadeInUp 0.4s ease-out;
+      font-family: 'Inter', sans-serif;
     `
     notification.textContent = message
     document.body.appendChild(notification)
     
-    setTimeout(() => notification.remove(), 3000)
+    setTimeout(() => {
+      notification.style.opacity = '0'
+      notification.style.transform = 'translateY(-10px)'
+      notification.style.transition = 'all 0.3s ease'
+      setTimeout(() => notification.remove(), 300)
+    }, 2700)
   }
+
+  const contactMethods = [
+    { icon: 'fas fa-envelope', label: 'Email', value: 'alesoncirag@gmail.com', href: 'mailto:alesoncirag@gmail.com', color: '#ef4444' },
+    { icon: 'fab fa-github', label: 'GitHub', value: 'AlesonIrag', href: 'https://github.com/AlesonIrag', color: '#f1f5f9' },
+    { icon: 'fab fa-facebook', label: 'Facebook', value: 'Aleson420', href: 'https://www.facebook.com/Aleson420', color: '#3b82f6' },
+  ]
 
   return (
     <>
-      <section id="contact" className="py-20 px-4 bg-gray-900/50">
-        <div className="max-w-6xl mx-auto text-center">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 gradient-text">Contact Me</h2>
-          <p className="text-gray-400 mb-12 max-w-2xl mx-auto">
-            Have a project in mind or want to collaborate? Let's connect!
-          </p>
-          
-          <button
-            onClick={() => setShowModal(true)}
-            className="group relative px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full font-semibold text-lg overflow-hidden transition-all hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/50"
-          >
-            <span className="relative z-10">
-              Send a Message
+      <section id="contact" ref={sectionRef} className="relative py-28 px-4">
+        {/* Decorative elements */}
+        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-pink-500/20 to-transparent"></div>
+        
+        {/* Background glow */}
+        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-indigo-600/[0.05] rounded-full blur-[120px] pointer-events-none"></div>
+        
+        <div className="max-w-4xl mx-auto">
+          {/* Section header */}
+          <div className={`text-center mb-16 reveal ${isVisible ? 'active' : ''}`}>
+            <span className="inline-block px-4 py-1.5 rounded-full bg-emerald-500/[0.08] border border-emerald-500/[0.15] text-emerald-300 text-sm font-medium mb-4">
+              <i className="fas fa-paper-plane mr-2"></i>Get In Touch
             </span>
-            <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-          </button>
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold gradient-text">
+              Contact Me
+            </h2>
+            <p className="text-gray-500 mt-4 max-w-lg mx-auto">
+              Have a project in mind or want to collaborate? Let's connect!
+            </p>
+          </div>
+
+          {/* Contact methods */}
+          <div className={`grid md:grid-cols-3 gap-4 mb-12 reveal ${isVisible ? 'active' : ''} stagger-2`}>
+            {contactMethods.map((method, index) => (
+              <a
+                key={index}
+                href={method.href}
+                target={method.href.startsWith('mailto') ? undefined : '_blank'}
+                rel="noopener noreferrer"
+                className="glass glass-shimmer rounded-2xl p-5 flex items-center gap-4 card-hover border-gradient group"
+              >
+                <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform"
+                  style={{ background: `${method.color}15` }}>
+                  <i className={`${method.icon} text-lg`} style={{ color: method.color }}></i>
+                </div>
+                <div className="min-w-0">
+                  <div className="text-xs text-gray-500 uppercase tracking-wider">{method.label}</div>
+                  <div className="text-sm text-white font-medium truncate group-hover:text-indigo-300 transition-colors">{method.value}</div>
+                </div>
+              </a>
+            ))}
+          </div>
+          
+          {/* CTA Button */}
+          <div className={`text-center reveal ${isVisible ? 'active' : ''} stagger-3`}>
+            <button
+              onClick={() => setShowModal(true)}
+              className="btn-primary group relative px-10 py-5 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl font-semibold text-lg overflow-hidden transition-all duration-300 hover:scale-[1.03] hover:shadow-2xl hover:shadow-indigo-500/30"
+            >
+              <span className="relative z-10 flex items-center gap-3">
+                <i className="fas fa-paper-plane group-hover:rotate-12 transition-transform"></i>
+                <span>Send a Message</span>
+              </span>
+            </button>
+          </div>
         </div>
       </section>
 
       {/* Contact Modal */}
-      {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-75 animate-fade-in">
-          <div className="bg-gray-800 rounded-2xl p-8 max-w-2xl w-full relative animate-fade-in">
-            {/* Close button */}
-            <button
-              onClick={() => setShowModal(false)}
-              className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
-            >
-              <i className="fas fa-times text-2xl"></i>
-            </button>
+      <div className={`fixed inset-0 z-50 flex items-center justify-center p-4 transition-all duration-400 ${showModal ? 'visible opacity-100' : 'invisible opacity-0 pointer-events-none'}`}>
+        {/* Backdrop */}
+        <div className="absolute inset-0 bg-black/80 backdrop-blur-xl" onClick={() => setShowModal(false)}></div>
+        
+        <div 
+          className={`relative glass rounded-3xl p-8 md:p-10 max-w-xl w-full border border-white/[0.06] shadow-2xl shadow-indigo-500/10 transition-all duration-400 ${showModal ? 'scale-100 translate-y-0' : 'scale-95 translate-y-8'}`}
+          onClick={e => e.stopPropagation()}
+        >
+          {/* Close button */}
+          <button
+            onClick={() => setShowModal(false)}
+            className="absolute top-4 right-4 w-10 h-10 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] flex items-center justify-center text-gray-400 hover:text-white transition-all hover:rotate-90 duration-300"
+          >
+            <i className="fas fa-times"></i>
+          </button>
 
-            <h3 className="text-3xl font-bold mb-2 gradient-text text-center">Send a Message</h3>
-            <p className="text-gray-400 text-center mb-6">Fill out the form below and I'll get back to you soon!</p>
-            
-            <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Modal header */}
+          <div className="text-center mb-8">
+            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center mx-auto mb-4 shadow-lg shadow-indigo-500/20">
+              <i className="fas fa-envelope text-white text-xl"></i>
+            </div>
+            <h3 className="text-2xl font-bold gradient-text">Send a Message</h3>
+            <p className="text-gray-500 text-sm mt-2">I'll get back to you as soon as possible!</p>
+          </div>
+          
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {/* Name field with floating label effect */}
+            <div className="relative">
+              <label className={`absolute left-4 transition-all duration-200 pointer-events-none ${
+                focusedField === 'name' || formData.name 
+                  ? 'top-1 text-[10px] text-indigo-400 font-medium' 
+                  : 'top-3.5 text-sm text-gray-500'
+              }`}>Your Name</label>
               <input 
                 type="text"
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                placeholder="Your Name" 
-                className="w-full px-4 py-3 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-white"
+                onFocus={() => setFocusedField('name')}
+                onBlur={() => setFocusedField(null)}
+                className="w-full px-4 pt-5 pb-2.5 bg-white/[0.03] border border-white/[0.06] rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/30 text-white transition-all"
                 required
               />
+            </div>
+
+            {/* Email field */}
+            <div className="relative">
+              <label className={`absolute left-4 transition-all duration-200 pointer-events-none ${
+                focusedField === 'email' || formData.email 
+                  ? 'top-1 text-[10px] text-indigo-400 font-medium' 
+                  : 'top-3.5 text-sm text-gray-500'
+              }`}>Email Address</label>
               <input 
                 type="email"
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                placeholder="Your Email" 
-                className="w-full px-4 py-3 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-white"
+                onFocus={() => setFocusedField('email')}
+                onBlur={() => setFocusedField(null)}
+                className="w-full px-4 pt-5 pb-2.5 bg-white/[0.03] border border-white/[0.06] rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/30 text-white transition-all"
                 required
               />
+            </div>
+
+            {/* Message field */}
+            <div className="relative">
+              <label className={`absolute left-4 transition-all duration-200 pointer-events-none ${
+                focusedField === 'message' || formData.message 
+                  ? 'top-1 text-[10px] text-indigo-400 font-medium' 
+                  : 'top-3.5 text-sm text-gray-500'
+              }`}>Your Message</label>
               <textarea
                 name="message"
                 value={formData.message}
                 onChange={handleChange}
-                placeholder="Your Message" 
-                rows="5"
-                className="w-full px-4 py-3 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none text-white"
+                onFocus={() => setFocusedField('message')}
+                onBlur={() => setFocusedField(null)}
+                rows="4"
+                className="w-full px-4 pt-5 pb-2.5 bg-white/[0.03] border border-white/[0.06] rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/30 resize-none text-white transition-all"
                 required
               ></textarea>
-              <div className="flex gap-4">
-                <button 
-                  type="button"
-                  onClick={() => setShowModal(false)}
-                  className="flex-1 bg-gray-700 hover:bg-gray-600 py-3 rounded-lg font-semibold transition-colors"
-                >
-                  Cancel
-                </button>
-                <button 
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="flex-1 bg-gradient-to-r from-indigo-600 to-purple-600 py-3 rounded-lg font-semibold hover:scale-105 transition-transform disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {isSubmitting ? 'Sending...' : 'Send Message'}
-                </button>
-              </div>
-            </form>
-          </div>
+            </div>
+
+            <div className="flex gap-3 pt-2">
+              <button 
+                type="button"
+                onClick={() => setShowModal(false)}
+                className="flex-1 py-3.5 rounded-xl font-semibold transition-all bg-white/[0.03] hover:bg-white/[0.06] border border-white/[0.06] text-gray-300"
+              >
+                Cancel
+              </button>
+              <button 
+                type="submit"
+                disabled={isSubmitting}
+                className="flex-1 btn-primary bg-gradient-to-r from-indigo-600 to-purple-600 py-3.5 rounded-xl font-semibold hover:scale-[1.02] transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-indigo-500/20"
+              >
+                {isSubmitting ? (
+                  <span className="flex items-center justify-center gap-2">
+                    <i className="fas fa-spinner animate-spin"></i>
+                    Sending...
+                  </span>
+                ) : 'Send Message'}
+              </button>
+            </div>
+          </form>
         </div>
-      )}
+      </div>
     </>
   )
 }
