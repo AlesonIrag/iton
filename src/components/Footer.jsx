@@ -149,7 +149,7 @@ export default function Footer({ isAdminMode }) {
       
       <div className="max-w-6xl mx-auto relative">
         {/* Main footer content */}
-        <div className={`grid md:grid-cols-3 gap-12 mb-16 reveal ${isVisible ? 'active' : ''}`}>
+        <div className={`grid md:grid-cols-3 gap-12 mb-16 reveal-3d ${isVisible ? 'active' : ''}`}>
           {/* Brand */}
           <div>
             <div className="flex items-center gap-3 mb-4">
@@ -167,7 +167,7 @@ export default function Footer({ isAdminMode }) {
           </div>
 
           {/* Quick Links */}
-          <div className={`reveal ${isVisible ? 'active' : ''} stagger-2`}>
+          <div className={`reveal-3d ${isVisible ? 'active' : ''}`} style={{ transitionDelay: '0.15s' }}>
             <h4 className="text-sm font-semibold uppercase tracking-wider text-gray-400 mb-4">Quick Links</h4>
             <div className="space-y-2">
               {quickLinks.map(link => (
@@ -187,7 +187,7 @@ export default function Footer({ isAdminMode }) {
           </div>
 
           {/* Connect */}
-          <div className={`reveal ${isVisible ? 'active' : ''} stagger-3`}>
+          <div className={`reveal-3d ${isVisible ? 'active' : ''}`} style={{ transitionDelay: '0.25s' }}>
             <h4 className="text-sm font-semibold uppercase tracking-wider text-gray-400 mb-4">Connect</h4>
             <div className="flex gap-3">
               {socialLinks.map((social, index) => (
@@ -211,7 +211,7 @@ export default function Footer({ isAdminMode }) {
         <div className="w-full h-px bg-gradient-to-r from-transparent via-white/[0.06] to-transparent mb-8"></div>
 
         {/* Bottom bar */}
-        <div className={`flex flex-col md:flex-row justify-between items-center gap-4 reveal ${isVisible ? 'active' : ''} stagger-4`}>
+        <div className={`flex flex-col md:flex-row justify-between items-center gap-4 reveal-3d ${isVisible ? 'active' : ''}`} style={{ transitionDelay: '0.35s' }}>
           {/* Copyright */}
           <div className="text-gray-500 text-sm flex items-center gap-2">
             {isEditingYear && isAdminMode ? (

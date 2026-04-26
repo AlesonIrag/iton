@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, lazy, Suspense } from 'react'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import About from './components/About'
@@ -8,6 +8,8 @@ import CV from './components/CV'
 import Contact from './components/Contact'
 import ProfileModal from './components/ProfileModal'
 import Footer from './components/Footer'
+
+const Scene3D = lazy(() => import('./components/Scene3D'))
 
 function App() {
   const [isAdminMode, setIsAdminMode] = useState(false)
@@ -128,20 +130,27 @@ function App() {
         </div>
       </div>
 
+      {/* 3D Game Background */}
+      <Suspense fallback={null}>
+        <Scene3D />
+      </Suspense>
+
       {/* Scroll Progress Bar */}
       <div className="scroll-progress" style={{ width: `${scrollProgress}%` }} />
 
       {/* Cursor Glow (desktop) */}
       <div ref={cursorRef} className="cursor-glow hidden md:block" />
 
-      <Navbar isAdminMode={isAdminMode} toggleAdminMode={toggleAdminMode} />
-      <Hero openProfileModal={handleOpenProfileModal} isAdminMode={isAdminMode} />
-      <About openProfileModal={handleOpenProfileModal} isAdminMode={isAdminMode} />
-      <Skills />
-      <Projects />
-      <Contact />
-      <Footer isAdminMode={isAdminMode} />
-      <CV />
+      <div className="relative z-10">
+        <Navbar isAdminMode={isAdminMode} toggleAdminMode={toggleAdminMode} />
+        <Hero openProfileModal={handleOpenProfileModal} isAdminMode={isAdminMode} />
+        <About openProfileModal={handleOpenProfileModal} isAdminMode={isAdminMode} />
+        <Skills />
+        <Projects />
+        <Contact />
+        <Footer isAdminMode={isAdminMode} />
+        <CV />
+      </div>
 
       {/* Back to Top Button */}
       <button

@@ -145,8 +145,8 @@ export default function Navbar({ isAdminMode, toggleAdminMode }) {
         </div>
       </nav>
 
-      {/* Mobile Menu */}
-      <div className={`fixed inset-0 z-40 transition-all duration-500 ${isMobileMenuOpen ? 'visible opacity-100' : 'invisible opacity-0 pointer-events-none'}`}>
+      {/* Mobile Menu - 3D */}
+      <div className={`fixed inset-0 z-40 transition-all duration-500 ${isMobileMenuOpen ? 'visible opacity-100' : 'invisible opacity-0 pointer-events-none'}`} style={{ perspective: '800px' }}>
         {/* Backdrop */}
         <div 
           className="absolute inset-0 bg-black/90 backdrop-blur-2xl"
@@ -161,7 +161,7 @@ export default function Navbar({ isAdminMode, toggleAdminMode }) {
           <i className="fas fa-times text-xl"></i>
         </button>
         
-        <div className="relative flex flex-col items-center justify-center h-full gap-2 px-8">
+        <div className={`relative flex flex-col items-center justify-center h-full gap-2 px-8 ${isMobileMenuOpen ? 'menu-3d-enter' : ''}`}>
           {navLinks.map((link, index) => (
             <a
               key={link.id}

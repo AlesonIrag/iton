@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useCallback } from 'react'
 import useScrollReveal from '../hooks/useScrollReveal'
 
 export default function Projects() {
@@ -7,6 +7,7 @@ export default function Projects() {
   const [hoveredIndex, setHoveredIndex] = useState(null)
   const [animatingFilter, setAnimatingFilter] = useState(false)
   const [displayFilter, setDisplayFilter] = useState('all')
+  const [tilt, setTilt] = useState({})
 
   const projects = [
     {
@@ -25,7 +26,8 @@ export default function Projects() {
       subtitle: 'Benedicto College',
       description: 'Comprehensive library management system for Benedicto College with book cataloging, user management, and borrowing tracking.',
       icon: 'fas fa-book',
-      tags: ['Angular 20 + TypeScript', 'Node.js + Express', 'SQL Database', 'jsPDF + html2canvas', 'RxJS'],    link: 'https://benedictocollege-library.org/',
+      tags: ['Angular 20 + TypeScript', 'Node.js + Express', 'SQL Database', 'jsPDF + html2canvas', 'RxJS'],
+      link: 'https://benedictocollege-library.org/',
       bgImage: '/library-bg.jpg',
       category: 'frontend',
       color: '#ffffff'
@@ -68,12 +70,9 @@ export default function Projects() {
     { id: 'all', label: 'All Projects', icon: 'fas fa-th' },
   ]
 
-  // Smooth filter transition
   const handleFilterChange = (filterId) => {
     if (filterId === activeFilter) return
     setAnimatingFilter(true)
-    
-    // Fade out, then switch, then fade in
     setTimeout(() => {
       setActiveFilter(filterId)
       setDisplayFilter(filterId)
@@ -81,18 +80,57 @@ export default function Projects() {
     }, 300)
   }
 
-  const filteredProjects = displayFilter === 'all' 
-    ? projects 
+  const handleTilt = useCallback((e, id) => {
+    const card = e.currentTarget
+    const rect = card.getBoundingClientRect()
+    const x = (e.clientX - rect.left) / rect.width - 0.5
+    const y = (e.clientY - rect.top) / rect.height - 0.5
+    setTilt(prev => ({
+      ...prev,
+      [id]: {
+        rx: y * -10,
+        ry: x * 10,
+        mx: e.clientX - rect.left,
+        my: e.clientY - rect.top,
+        imgX: x * -6,
+        imgY: y * -6,
+      }
+    }))
+  }, [])
+
+  const resetTilt = useCallback((id) => {
+    setTilt(prev => ({ ...prev, [id]: null }))
+  }, [])
+
+  const filteredProjects = displayFilter === 'all'
+    ? projects
     : projects.filter(p => p.category === displayFilter)
+
+  const getTiltStyle = (id) => {
+    const t = tilt[id]
+    if (!t) return { transform: 'perspective(800px) rotateX(0) rotateY(0) scale(1)' }
+    return {
+      transform: `perspective(800px) rotateX(${t.rx}deg) rotateY(${t.ry}deg) scale(1.02)`,
+      transition: 'none',
+    }
+  }
+
+  const getImageStyle = (id) => {
+    const t = tilt[id]
+    if (!t) return { transform: 'scale(1)', transition: 'transform 0.5s ease' }
+    return {
+      transform: `scale(1.08) translate(${t.imgX}px, ${t.imgY}px)`,
+      transition: 'none',
+    }
+  }
 
   return (
     <section id="projects" ref={sectionRef} className="relative py-28 px-4">
-      {/* Decorative elements */}
       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-indigo-500/20 to-transparent"></div>
-      
+
       <div className="max-w-7xl mx-auto">
         {/* Section header */}
-        <div className={`text-center mb-16 reveal ${isVisible ? 'active' : ''}`}>
+        <div className={`text-center mb-16 reveal-3d ${isVisible ? 'active' : ''}`}>
           <span className="inline-block px-4 py-1.5 rounded-full bg-pink-500/[0.08] border border-pink-500/[0.15] text-pink-300 text-sm font-medium mb-4">
             <i className="fas fa-rocket mr-2"></i>Portfolio
           </span>
@@ -105,7 +143,7 @@ export default function Projects() {
         </div>
 
         {/* Filter tabs */}
-        <div className={`flex justify-center gap-2 mb-12 reveal ${isVisible ? 'active' : ''} stagger-1`}>
+        <div className={`flex justify-center gap-2 mb-12 reveal-3d ${isVisible ? 'active' : ''}`} style={{ transitionDelay: '0.1s' }}>
           {filters.map(filter => (
             <button
               key={filter.id}
@@ -122,37 +160,52 @@ export default function Projects() {
           ))}
         </div>
 
-        {/* Featured project (Bagkuning) */}
+        {/* Featured project - 3D tilt card */}
         {displayFilter === 'all' && (
-          <div className={`mb-8 reveal ${isVisible ? 'active' : ''} stagger-2 transition-all duration-500 ${animatingFilter ? 'opacity-0 scale-95' : 'opacity-100 scale-100'}`}>
-            <a 
+          <div className={`mb-8 reveal-3d ${isVisible ? 'active' : ''} transition-all duration-500 ${animatingFilter ? 'opacity-0 scale-95' : 'opacity-100 scale-100'}`}
+            style={{ transitionDelay: '0.15s' }}
+          >
+            <a
               href={projects[0].link}
               target="_blank"
               rel="noopener noreferrer"
-              className="group block relative glass glass-shimmer rounded-3xl overflow-hidden card-hover"
+              className="group block relative glass glass-shimmer rounded-3xl overflow-hidden card-3d"
               onMouseEnter={() => setHoveredIndex(-1)}
-              onMouseLeave={() => setHoveredIndex(null)}
+              onMouseLeave={() => { setHoveredIndex(null); resetTilt('featured') }}
+              onMouseMove={(e) => handleTilt(e, 'featured')}
+              style={{
+                ...getTiltStyle('featured'),
+                transition: tilt['featured'] ? 'none' : 'transform 0.5s cubic-bezier(0.23, 1, 0.32, 1)',
+              }}
             >
+              {/* Mouse-follow shine */}
+              {tilt['featured'] && (
+                <div className="card-shine" style={{
+                  background: `radial-gradient(circle at ${tilt['featured'].mx}px ${tilt['featured'].my}px, rgba(255,255,255,0.06) 0%, transparent 50%)`,
+                  opacity: 1,
+                }} />
+              )}
+
               <div className="grid lg:grid-cols-2 gap-0">
-                {/* Image side */}
+                {/* Image with parallax */}
                 <div className="relative h-64 lg:h-96 overflow-hidden">
-                  <img 
-                    src={projects[0].bgImage} 
+                  <img
+                    src={projects[0].bgImage}
                     alt={projects[0].title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    className="w-full h-full object-cover"
                     loading="lazy"
+                    style={getImageStyle('featured')}
                   />
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[#0f172a]/80 lg:block hidden"></div>
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0f172a] to-transparent lg:hidden"></div>
-                  
-                  {/* Featured badge */}
+
                   <div className="absolute top-4 left-4 px-3 py-1.5 rounded-full bg-orange-500/20 border border-orange-500/30 text-orange-300 text-xs font-semibold flex items-center gap-1.5">
                     <i className="fas fa-star text-[10px]"></i>
                     Featured Project
                   </div>
                 </div>
 
-                {/* Content side */}
+                {/* Content */}
                 <div className="relative p-8 lg:p-12 flex flex-col justify-center">
                   <div className="flex items-center gap-3 mb-4">
                     <div className="w-12 h-12 rounded-2xl flex items-center justify-center text-white text-xl" style={{ background: `${projects[0].color}25`, color: projects[0].color }}>
@@ -165,10 +218,8 @@ export default function Projects() {
                       <span className="text-sm text-gray-500">{projects[0].subtitle}</span>
                     </div>
                   </div>
-                  
-                  <p className="text-gray-400 mb-6 leading-relaxed lg:text-lg">
-                    {projects[0].description}
-                  </p>
+
+                  <p className="text-gray-400 mb-6 leading-relaxed lg:text-lg">{projects[0].description}</p>
 
                   <div className="flex flex-wrap gap-2 mb-6">
                     {projects[0].tags.map((tag, i) => (
@@ -188,44 +239,56 @@ export default function Projects() {
           </div>
         )}
 
-        {/* Project grid with smooth transitions */}
+        {/* Project grid - 3D tilt cards */}
         <div className={`grid md:grid-cols-2 gap-6 transition-all duration-500 ${animatingFilter ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'}`}>
           {(displayFilter === 'all' ? projects.slice(1) : filteredProjects).map((project, index) => (
-            <div 
+            <div
               key={project.title}
-              className={`group relative glass glass-shimmer rounded-2xl overflow-hidden card-hover project-grid-item reveal ${isVisible ? 'active' : ''} stagger-${Math.min(index + 3, 8)}`}
+              className={`group relative glass glass-shimmer rounded-2xl overflow-hidden card-3d project-grid-item reveal-3d ${isVisible ? 'active' : ''}`}
               onMouseEnter={() => setHoveredIndex(index)}
-              onMouseLeave={() => setHoveredIndex(null)}
+              onMouseLeave={() => { setHoveredIndex(null); resetTilt(project.title) }}
+              onMouseMove={(e) => handleTilt(e, project.title)}
+              style={{
+                ...getTiltStyle(project.title),
+                transition: tilt[project.title] ? 'none' : 'transform 0.5s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.9s ease',
+                transitionDelay: isVisible && !tilt[project.title] ? `${0.1 * (index + 2)}s` : '0s',
+              }}
             >
-              {/* Background Image */}
+              {/* Mouse-follow shine */}
+              {tilt[project.title] && (
+                <div className="card-shine" style={{
+                  background: `radial-gradient(circle at ${tilt[project.title].mx}px ${tilt[project.title].my}px, rgba(255,255,255,0.05) 0%, transparent 50%)`,
+                  opacity: 1,
+                }} />
+              )}
+
+              {/* Background Image with parallax */}
               <div className="relative h-52 overflow-hidden">
                 {project.bgImage ? (
-                  <img 
-                    src={project.bgImage} 
+                  <img
+                    src={project.bgImage}
                     alt={project.title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                    className="w-full h-full object-cover"
                     loading="lazy"
+                    style={getImageStyle(project.title)}
                   />
                 ) : (
                   <div className="w-full h-full bg-gradient-to-br" style={{ background: `linear-gradient(135deg, ${project.color}30, ${project.color}10)` }}></div>
                 )}
-                
-                {/* Overlay */}
+
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0f172a] via-[#0f172a]/40 to-transparent"></div>
-                
-                {/* Category badge */}
+
                 <div className="absolute top-4 right-4 px-3 py-1 rounded-full text-[10px] font-semibold uppercase tracking-wider"
                   style={{ background: `${project.color}20`, color: project.color, border: `1px solid ${project.color}30` }}>
                   {project.category}
                 </div>
-                
-                {/* Icon */}
+
                 <div className="absolute bottom-4 left-6 w-12 h-12 rounded-2xl flex items-center justify-center backdrop-blur-xl text-white text-lg"
                   style={{ background: `${project.color}30`, boxShadow: `0 4px 20px ${project.color}20` }}>
                   <i className={project.icon}></i>
                 </div>
               </div>
-              
+
               {/* Content */}
               <div className="p-6">
                 <div className="mb-1">
@@ -236,8 +299,7 @@ export default function Projects() {
                   {project.title}
                 </h3>
                 <p className="text-gray-400 text-sm mb-5 leading-relaxed line-clamp-2">{project.description}</p>
-                
-                {/* Tags */}
+
                 <div className="flex flex-wrap gap-1.5 mb-5">
                   {project.tags.slice(0, 4).map((tag, i) => (
                     <span key={i} className="tag-pill px-2.5 py-1 bg-white/[0.03] border border-white/[0.05] text-[11px] rounded-md font-medium text-gray-400">
@@ -250,10 +312,9 @@ export default function Projects() {
                     </span>
                   )}
                 </div>
-                
-                {/* Action */}
+
                 {project.link ? (
-                  <a 
+                  <a
                     href={project.link}
                     target="_blank"
                     rel="noopener noreferrer"

@@ -1,8 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
 * {
     margin: 0;
@@ -645,4 +645,164 @@ nav.scrolled {
 
 .social-icon-magnetic:hover {
     transform: translateY(-4px) scale(1.12);
+}
+
+/* ===== 3D PERSPECTIVE SYSTEM ===== */
+.perspective-container {
+    perspective: 1200px;
+    perspective-origin: center;
+}
+
+.preserve-3d {
+    transform-style: preserve-3d;
+}
+
+/* ===== 3D CARD — clean hover with lift + glow ===== */
+.card-3d {
+    transform-style: preserve-3d;
+    transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.5s ease, border-color 0.4s ease;
+    will-change: transform;
+    border: 1px solid rgba(99, 102, 241, 0.06);
+}
+
+.card-3d:hover {
+    border-color: rgba(99, 102, 241, 0.2);
+    box-shadow:
+        0 20px 40px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(99, 102, 241, 0.15),
+        0 0 30px rgba(99, 102, 241, 0.08);
+}
+
+.card-3d-content {
+    transform: translateZ(30px);
+    transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* ===== 3D DEPTH REVEAL — elements fly in from Z-axis on scroll ===== */
+.reveal-3d {
+    opacity: 0;
+    transform: perspective(1000px) rotateX(6deg) translateY(50px) translateZ(-40px);
+    transition: all 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-3d.active {
+    opacity: 1;
+    transform: perspective(1000px) rotateX(0) translateY(0) translateZ(0);
+}
+
+/* ===== ENHANCED 3D GLASS — deeper, more readable ===== */
+.glass-3d {
+    background: rgba(15, 23, 42, 0.65);
+    backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(99, 102, 241, 0.08);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.03),
+        0 8px 32px rgba(0, 0, 0, 0.3);
+    transform-style: preserve-3d;
+}
+
+/* ===== HOVER GLOW BORDER — no overlay, just border glow ===== */
+.glow-border-hover {
+    position: relative;
+    transition: box-shadow 0.4s ease, border-color 0.4s ease;
+    border: 1px solid rgba(99, 102, 241, 0.06);
+}
+
+.glow-border-hover:hover {
+    border-color: rgba(99, 102, 241, 0.25);
+    box-shadow:
+        0 0 20px rgba(99, 102, 241, 0.12),
+        0 0 40px rgba(99, 102, 241, 0.06),
+        0 15px 35px rgba(0, 0, 0, 0.3);
+}
+
+/* ===== 3D FLOATING ANIMATION ===== */
+@keyframes float3d {
+    0%, 100% { transform: translateY(0) rotateX(0) rotateY(0); }
+    25% { transform: translateY(-6px) rotateX(1deg) rotateY(-0.5deg); }
+    50% { transform: translateY(-3px) rotateX(-0.5deg) rotateY(1deg); }
+    75% { transform: translateY(-8px) rotateX(0.5deg) rotateY(-1deg); }
+}
+
+.float-3d {
+    animation: float3d 8s ease-in-out infinite;
+    transform-style: preserve-3d;
+}
+
+/* ===== 3D SECTION ENTRANCE ===== */
+@keyframes flyInFromDepth {
+    from {
+        opacity: 0;
+        transform: perspective(800px) translateZ(-150px) rotateX(8deg) translateY(30px);
+        filter: blur(3px);
+    }
+    to {
+        opacity: 1;
+        transform: perspective(800px) translateZ(0) rotateX(0) translateY(0);
+        filter: blur(0);
+    }
+}
+
+.fly-in-depth {
+    animation: flyInFromDepth 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ===== 3D MOBILE MENU ===== */
+@keyframes menuSlide3D {
+    from { transform: perspective(800px) rotateY(-12deg) translateX(80%); opacity: 0; }
+    to { transform: perspective(800px) rotateY(0) translateX(0); opacity: 1; }
+}
+
+.menu-3d-enter {
+    animation: menuSlide3D 0.5s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+/* ===== SKILL CARD FLIP ===== */
+.skill-flip-card {
+    perspective: 800px;
+    cursor: pointer;
+}
+
+.skill-flip-inner {
+    transform-style: preserve-3d;
+    transition: transform 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.skill-flip-card.flipped .skill-flip-inner {
+    transform: rotateY(180deg);
+}
+
+.skill-flip-front,
+.skill-flip-back {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+.skill-flip-back {
+    transform: rotateY(180deg);
+    position: absolute;
+    inset: 0;
+}
+
+/* ===== 3D SHINE ON HOVER (follows mouse) ===== */
+.card-shine {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    border-radius: inherit;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 5;
+}
+
+.card-3d:hover .card-shine {
+    opacity: 1;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .card-3d, .reveal-3d, .float-3d, .skill-flip-inner {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+    }
 }

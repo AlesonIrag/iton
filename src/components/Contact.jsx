@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import emailjs from '@emailjs/browser'
 import useScrollReveal from '../hooks/useScrollReveal'
 
@@ -12,6 +12,7 @@ export default function Contact() {
   const [showModal, setShowModal] = useState(false)
   const [sectionRef, isVisible] = useScrollReveal({ threshold: 0.15 })
   const [focusedField, setFocusedField] = useState(null)
+  const [cardTilt, setCardTilt] = useState({})
 
   // Replace these with your EmailJS credentials
   const serviceId = 'service_xlx9vc9'
@@ -90,6 +91,18 @@ export default function Contact() {
     }, 2700)
   }
 
+  const handleCardMouseMove = useCallback((e, id) => {
+    const card = e.currentTarget
+    const rect = card.getBoundingClientRect()
+    const x = (e.clientX - rect.left) / rect.width - 0.5
+    const y = (e.clientY - rect.top) / rect.height - 0.5
+    setCardTilt(prev => ({ ...prev, [id]: { x: y * -8, y: x * 8 } }))
+  }, [])
+
+  const handleCardMouseLeave = useCallback((id) => {
+    setCardTilt(prev => ({ ...prev, [id]: null }))
+  }, [])
+
   const contactMethods = [
     { icon: 'fas fa-envelope', label: 'Email', value: 'alesoncirag@gmail.com', href: 'mailto:alesoncirag@gmail.com', color: '#ef4444' },
     { icon: 'fab fa-github', label: 'GitHub', value: 'AlesonIrag', href: 'https://github.com/AlesonIrag', color: '#f1f5f9' },
@@ -99,15 +112,12 @@ export default function Contact() {
   return (
     <>
       <section id="contact" ref={sectionRef} className="relative py-28 px-4">
-        {/* Decorative elements */}
         <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-pink-500/20 to-transparent"></div>
-        
-        {/* Background glow */}
         <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-indigo-600/[0.05] rounded-full blur-[120px] pointer-events-none"></div>
         
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-4xl mx-auto perspective-container">
           {/* Section header */}
-          <div className={`text-center mb-16 reveal ${isVisible ? 'active' : ''}`}>
+          <div className={`text-center mb-16 reveal-3d ${isVisible ? 'active' : ''}`}>
             <span className="inline-block px-4 py-1.5 rounded-full bg-emerald-500/[0.08] border border-emerald-500/[0.15] text-emerald-300 text-sm font-medium mb-4">
               <i className="fas fa-paper-plane mr-2"></i>Get In Touch
             </span>
@@ -119,21 +129,29 @@ export default function Contact() {
             </p>
           </div>
 
-          {/* Contact methods */}
-          <div className={`grid md:grid-cols-3 gap-4 mb-12 reveal ${isVisible ? 'active' : ''} stagger-2`}>
+          {/* Contact methods - 3D floating panels */}
+          <div className={`grid md:grid-cols-3 gap-4 mb-12 reveal-3d ${isVisible ? 'active' : ''}`} style={{ transitionDelay: '0.15s' }}>
             {contactMethods.map((method, index) => (
               <a
                 key={index}
                 href={method.href}
                 target={method.href.startsWith('mailto') ? undefined : '_blank'}
                 rel="noopener noreferrer"
-                className="glass glass-shimmer rounded-2xl p-5 flex items-center gap-4 card-hover border-gradient group"
+                className="glass-3d rounded-2xl p-5 flex items-center gap-4 card-3d glow-border-hover group"
+                onMouseMove={(e) => handleCardMouseMove(e, `contact-${index}`)}
+                onMouseLeave={() => handleCardMouseLeave(`contact-${index}`)}
+                style={{
+                  transform: cardTilt[`contact-${index}`]
+                    ? `perspective(600px) rotateX(${cardTilt[`contact-${index}`].x}deg) rotateY(${cardTilt[`contact-${index}`].y}deg) translateZ(10px)`
+                    : 'perspective(600px) rotateX(0) rotateY(0) translateZ(0)',
+                  transition: cardTilt[`contact-${index}`] ? 'transform 0.1s ease' : 'transform 0.5s cubic-bezier(0.23, 1, 0.32, 1)',
+                }}
               >
                 <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform"
-                  style={{ background: `${method.color}15` }}>
+                  style={{ background: `${method.color}15`, transform: 'translateZ(15px)' }}>
                   <i className={`${method.icon} text-lg`} style={{ color: method.color }}></i>
                 </div>
-                <div className="min-w-0">
+                <div className="min-w-0" style={{ transform: 'translateZ(10px)' }}>
                   <div className="text-xs text-gray-500 uppercase tracking-wider">{method.label}</div>
                   <div className="text-sm text-white font-medium truncate group-hover:text-indigo-300 transition-colors">{method.value}</div>
                 </div>
@@ -142,7 +160,7 @@ export default function Contact() {
           </div>
           
           {/* CTA Button */}
-          <div className={`text-center reveal ${isVisible ? 'active' : ''} stagger-3`}>
+          <div className={`text-center reveal-3d ${isVisible ? 'active' : ''}`} style={{ transitionDelay: '0.25s' }}>
             <button
               onClick={() => setShowModal(true)}
               className="btn-primary group relative px-10 py-5 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl font-semibold text-lg overflow-hidden transition-all duration-300 hover:scale-[1.03] hover:shadow-2xl hover:shadow-indigo-500/30"
@@ -156,16 +174,19 @@ export default function Contact() {
         </div>
       </section>
 
-      {/* Contact Modal */}
+      {/* Contact Modal with 3D entrance */}
       <div className={`fixed inset-0 z-50 flex items-center justify-center p-4 transition-all duration-400 ${showModal ? 'visible opacity-100' : 'invisible opacity-0 pointer-events-none'}`}>
-        {/* Backdrop */}
         <div className="absolute inset-0 bg-black/80 backdrop-blur-xl" onClick={() => setShowModal(false)}></div>
         
         <div 
-          className={`relative glass rounded-3xl p-8 md:p-10 max-w-xl w-full border border-white/[0.06] shadow-2xl shadow-indigo-500/10 transition-all duration-400 ${showModal ? 'scale-100 translate-y-0' : 'scale-95 translate-y-8'}`}
+          className={`relative glass-3d rounded-3xl p-8 md:p-10 max-w-xl w-full border border-white/[0.06] shadow-2xl shadow-indigo-500/10 transition-all duration-500 ${showModal ? 'scale-100 translate-y-0' : 'scale-90 translate-y-8'}`}
           onClick={e => e.stopPropagation()}
+          style={{
+            transform: showModal 
+              ? 'perspective(800px) rotateX(0) scale(1) translateY(0)' 
+              : 'perspective(800px) rotateX(-10deg) scale(0.9) translateY(40px)',
+          }}
         >
-          {/* Close button */}
           <button
             onClick={() => setShowModal(false)}
             className="absolute top-4 right-4 w-10 h-10 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] flex items-center justify-center text-gray-400 hover:text-white transition-all hover:rotate-90 duration-300"
@@ -173,7 +194,6 @@ export default function Contact() {
             <i className="fas fa-times"></i>
           </button>
 
-          {/* Modal header */}
           <div className="text-center mb-8">
             <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center mx-auto mb-4 shadow-lg shadow-indigo-500/20">
               <i className="fas fa-envelope text-white text-xl"></i>
@@ -183,7 +203,6 @@ export default function Contact() {
           </div>
           
           <form onSubmit={handleSubmit} className="space-y-4">
-            {/* Name field with floating label effect */}
             <div className="relative">
               <label className={`absolute left-4 transition-all duration-200 pointer-events-none ${
                 focusedField === 'name' || formData.name 
@@ -191,9 +210,7 @@ export default function Contact() {
                   : 'top-3.5 text-sm text-gray-500'
               }`}>Your Name</label>
               <input 
-                type="text"
-                name="name"
-                value={formData.name}
+                type="text" name="name" value={formData.name}
                 onChange={handleChange}
                 onFocus={() => setFocusedField('name')}
                 onBlur={() => setFocusedField(null)}
@@ -202,7 +219,6 @@ export default function Contact() {
               />
             </div>
 
-            {/* Email field */}
             <div className="relative">
               <label className={`absolute left-4 transition-all duration-200 pointer-events-none ${
                 focusedField === 'email' || formData.email 
@@ -210,9 +226,7 @@ export default function Contact() {
                   : 'top-3.5 text-sm text-gray-500'
               }`}>Email Address</label>
               <input 
-                type="email"
-                name="email"
-                value={formData.email}
+                type="email" name="email" value={formData.email}
                 onChange={handleChange}
                 onFocus={() => setFocusedField('email')}
                 onBlur={() => setFocusedField(null)}
@@ -221,7 +235,6 @@ export default function Contact() {
               />
             </div>
 
-            {/* Message field */}
             <div className="relative">
               <label className={`absolute left-4 transition-all duration-200 pointer-events-none ${
                 focusedField === 'message' || formData.message 
@@ -229,8 +242,7 @@ export default function Contact() {
                   : 'top-3.5 text-sm text-gray-500'
               }`}>Your Message</label>
               <textarea
-                name="message"
-                value={formData.message}
+                name="message" value={formData.message}
                 onChange={handleChange}
                 onFocus={() => setFocusedField('message')}
                 onBlur={() => setFocusedField(null)}
@@ -242,15 +254,11 @@ export default function Contact() {
 
             <div className="flex gap-3 pt-2">
               <button 
-                type="button"
-                onClick={() => setShowModal(false)}
+                type="button" onClick={() => setShowModal(false)}
                 className="flex-1 py-3.5 rounded-xl font-semibold transition-all bg-white/[0.03] hover:bg-white/[0.06] border border-white/[0.06] text-gray-300"
-              >
-                Cancel
-              </button>
+              >Cancel</button>
               <button 
-                type="submit"
-                disabled={isSubmitting}
+                type="submit" disabled={isSubmitting}
                 className="flex-1 btn-primary bg-gradient-to-r from-indigo-600 to-purple-600 py-3.5 rounded-xl font-semibold hover:scale-[1.02] transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-indigo-500/20"
               >
                 {isSubmitting ? (
