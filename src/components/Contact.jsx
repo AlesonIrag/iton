@@ -111,7 +111,7 @@ export default function Contact() {
 
   return (
     <>
-      <section id="contact" ref={sectionRef} className="relative py-28 px-4">
+      <section id="contact" ref={sectionRef} className="relative py-16 sm:py-20 md:py-28 px-4 sm:px-6">
         <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-pink-500/20 to-transparent"></div>
         <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-indigo-600/[0.05] rounded-full blur-[120px] pointer-events-none"></div>
         
@@ -121,23 +121,23 @@ export default function Contact() {
             <span className="inline-block px-4 py-1.5 rounded-full bg-emerald-500/[0.08] border border-emerald-500/[0.15] text-emerald-300 text-sm font-medium mb-4">
               <i className="fas fa-paper-plane mr-2"></i>Get In Touch
             </span>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold gradient-text">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold gradient-text">
               Contact Me
             </h2>
-            <p className="text-gray-500 mt-4 max-w-lg mx-auto">
+            <p className="text-gray-500 mt-3 sm:mt-4 max-w-lg mx-auto text-sm sm:text-base">
               Have a project in mind or want to collaborate? Let's connect!
             </p>
           </div>
 
           {/* Contact methods - 3D floating panels */}
-          <div className={`grid md:grid-cols-3 gap-4 mb-12 reveal-3d ${isVisible ? 'active' : ''}`} style={{ transitionDelay: '0.15s' }}>
+          <div className={`grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-8 sm:mb-12 reveal-3d ${isVisible ? 'active' : ''}`} style={{ transitionDelay: '0.15s' }}>
             {contactMethods.map((method, index) => (
               <a
                 key={index}
                 href={method.href}
                 target={method.href.startsWith('mailto') ? undefined : '_blank'}
                 rel="noopener noreferrer"
-                className="glass-3d rounded-2xl p-5 flex items-center gap-4 card-3d glow-border-hover group"
+                className="glass-3d rounded-2xl p-4 sm:p-5 flex items-center gap-3 sm:gap-4 card-3d glow-border-hover group"
                 onMouseMove={(e) => handleCardMouseMove(e, `contact-${index}`)}
                 onMouseLeave={() => handleCardMouseLeave(`contact-${index}`)}
                 style={{
@@ -147,7 +147,7 @@ export default function Contact() {
                   transition: cardTilt[`contact-${index}`] ? 'transform 0.1s ease' : 'transform 0.5s cubic-bezier(0.23, 1, 0.32, 1)',
                 }}
               >
-                <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform"
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform"
                   style={{ background: `${method.color}15`, transform: 'translateZ(15px)' }}>
                   <i className={`${method.icon} text-lg`} style={{ color: method.color }}></i>
                 </div>
@@ -163,7 +163,7 @@ export default function Contact() {
           <div className={`text-center reveal-3d ${isVisible ? 'active' : ''}`} style={{ transitionDelay: '0.25s' }}>
             <button
               onClick={() => setShowModal(true)}
-              className="btn-primary group relative px-10 py-5 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl font-semibold text-lg overflow-hidden transition-all duration-300 hover:scale-[1.03] hover:shadow-2xl hover:shadow-indigo-500/30"
+              className="btn-primary group relative px-8 sm:px-10 py-4 sm:py-5 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl font-semibold text-base sm:text-lg overflow-hidden transition-all duration-300 hover:scale-[1.03] hover:shadow-2xl hover:shadow-indigo-500/30"
             >
               <span className="relative z-10 flex items-center gap-3">
                 <i className="fas fa-paper-plane group-hover:rotate-12 transition-transform"></i>
@@ -175,11 +175,11 @@ export default function Contact() {
       </section>
 
       {/* Contact Modal with 3D entrance */}
-      <div className={`fixed inset-0 z-50 flex items-center justify-center p-4 transition-all duration-400 ${showModal ? 'visible opacity-100' : 'invisible opacity-0 pointer-events-none'}`}>
+      <div className={`fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 transition-all duration-400 ${showModal ? 'visible opacity-100' : 'invisible opacity-0 pointer-events-none'}`}>
         <div className="absolute inset-0 bg-black/80 backdrop-blur-xl" onClick={() => setShowModal(false)}></div>
         
         <div 
-          className={`relative glass-3d rounded-3xl p-8 md:p-10 max-w-xl w-full border border-white/[0.06] shadow-2xl shadow-indigo-500/10 transition-all duration-500 ${showModal ? 'scale-100 translate-y-0' : 'scale-90 translate-y-8'}`}
+          className={`relative glass-3d rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-10 max-w-xl w-full border border-white/[0.06] shadow-2xl shadow-indigo-500/10 transition-all duration-500 ${showModal ? 'scale-100 translate-y-0' : 'scale-90 translate-y-8'}`}
           onClick={e => e.stopPropagation()}
           style={{
             transform: showModal 
@@ -194,12 +194,12 @@ export default function Contact() {
             <i className="fas fa-times"></i>
           </button>
 
-          <div className="text-center mb-8">
-            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center mx-auto mb-4 shadow-lg shadow-indigo-500/20">
-              <i className="fas fa-envelope text-white text-xl"></i>
+          <div className="text-center mb-6 sm:mb-8">
+            <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center mx-auto mb-3 sm:mb-4 shadow-lg shadow-indigo-500/20">
+              <i className="fas fa-envelope text-white text-lg sm:text-xl"></i>
             </div>
-            <h3 className="text-2xl font-bold gradient-text">Send a Message</h3>
-            <p className="text-gray-500 text-sm mt-2">I'll get back to you as soon as possible!</p>
+            <h3 className="text-xl sm:text-2xl font-bold gradient-text">Send a Message</h3>
+            <p className="text-gray-500 text-xs sm:text-sm mt-2">I'll get back to you as soon as possible!</p>
           </div>
           
           <form onSubmit={handleSubmit} className="space-y-4">

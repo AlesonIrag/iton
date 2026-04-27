@@ -40,7 +40,7 @@ export default function Skills() {
   }, [])
 
   return (
-    <section id="skills" ref={sectionRef} className="relative py-28 px-4">
+    <section id="skills" ref={sectionRef} className="relative py-16 sm:py-20 md:py-28 px-4 sm:px-6">
       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-purple-500/20 to-transparent"></div>
 
       <div className="max-w-6xl mx-auto">
@@ -49,15 +49,15 @@ export default function Skills() {
           <span className="inline-block px-4 py-1.5 rounded-full bg-purple-500/[0.08] border border-purple-500/[0.15] text-purple-300 text-sm font-medium mb-4">
             <i className="fas fa-code mr-2"></i>Tech Stack
           </span>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold gradient-text">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold gradient-text">
             Tech Stack & Tools
           </h2>
-          <p className="text-gray-500 mt-4 max-w-lg mx-auto">
+          <p className="text-gray-500 mt-3 sm:mt-4 max-w-lg mx-auto text-sm sm:text-base">
             Modern tools and technologies for building stunning web interfaces
           </p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5">
           {skills.map((skill, index) => (
             <div
               key={index}
@@ -79,7 +79,7 @@ export default function Skills() {
                 }}
               >
                 {/* FRONT */}
-                <div className="skill-flip-front glass rounded-2xl p-6 glass-shimmer border-gradient group card-3d">
+                <div className="skill-flip-front glass rounded-2xl p-4 sm:p-6 glass-shimmer border-gradient group card-3d">
                   {/* Glow on hover */}
                   <div
                     className="absolute -top-20 -right-20 w-40 h-40 rounded-full opacity-0 group-hover:opacity-20 transition-opacity duration-500 blur-3xl"
@@ -87,9 +87,9 @@ export default function Skills() {
                   ></div>
 
                   <div className="relative z-10">
-                    <div className="mb-4 flex items-center justify-between">
+                    <div className="mb-3 sm:mb-4 flex items-center justify-between">
                       <div
-                        className="text-4xl group-hover:scale-110 transition-transform duration-300"
+                        className="text-3xl sm:text-4xl group-hover:scale-110 transition-transform duration-300"
                         style={{ color: skill.color, filter: `drop-shadow(0 0 8px ${skill.color}40)` }}
                       >
                         <i className={skill.icon}></i>
@@ -97,8 +97,8 @@ export default function Skills() {
                       <span className="text-xs text-gray-500 font-mono">{skill.level}%</span>
                     </div>
 
-                    <h3 className="text-lg font-semibold mb-1 text-white">{skill.name}</h3>
-                    <p className="text-xs text-gray-500 mb-4">{skill.description}</p>
+                    <h3 className="text-base sm:text-lg font-semibold mb-1 text-white">{skill.name}</h3>
+                    <p className="text-[10px] sm:text-xs text-gray-500 mb-3 sm:mb-4">{skill.description}</p>
 
                     {/* Progress bar with glow */}
                     <div className="w-full bg-gray-800 rounded-full h-1.5 overflow-hidden">
@@ -120,7 +120,7 @@ export default function Skills() {
                 </div>
 
                 {/* BACK */}
-                <div className="skill-flip-back glass rounded-2xl p-5 flex flex-col items-center justify-center">
+                <div className="skill-flip-back glass rounded-2xl p-4 sm:p-5 flex flex-col items-center justify-center">
                   <div className="text-2xl mb-2" style={{ color: skill.color, filter: `drop-shadow(0 0 10px ${skill.color}50)` }}>
                     <i className={skill.icon}></i>
                   </div>

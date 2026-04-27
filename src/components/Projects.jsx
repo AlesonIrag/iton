@@ -125,7 +125,7 @@ export default function Projects() {
   }
 
   return (
-    <section id="projects" ref={sectionRef} className="relative py-28 px-4">
+    <section id="projects" ref={sectionRef} className="relative py-16 sm:py-20 md:py-28 px-4 sm:px-6">
       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-indigo-500/20 to-transparent"></div>
 
       <div className="max-w-7xl mx-auto">
@@ -134,10 +134,10 @@ export default function Projects() {
           <span className="inline-block px-4 py-1.5 rounded-full bg-pink-500/[0.08] border border-pink-500/[0.15] text-pink-300 text-sm font-medium mb-4">
             <i className="fas fa-rocket mr-2"></i>Portfolio
           </span>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold gradient-text">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold gradient-text">
             Featured Projects
           </h2>
-          <p className="text-gray-500 mt-4 max-w-lg mx-auto">
+          <p className="text-gray-500 mt-3 sm:mt-4 max-w-lg mx-auto text-sm sm:text-base">
             Showcasing my best work and creative solutions
           </p>
         </div>
@@ -206,22 +206,22 @@ export default function Projects() {
                 </div>
 
                 {/* Content */}
-                <div className="relative p-8 lg:p-12 flex flex-col justify-center">
+                <div className="relative p-5 sm:p-8 lg:p-12 flex flex-col justify-center">
                   <div className="flex items-center gap-3 mb-4">
                     <div className="w-12 h-12 rounded-2xl flex items-center justify-center text-white text-xl" style={{ background: `${projects[0].color}25`, color: projects[0].color }}>
                       <i className={projects[0].icon}></i>
                     </div>
                     <div>
-                      <h3 className="text-2xl lg:text-3xl font-bold text-white group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-orange-400 group-hover:to-pink-400 group-hover:bg-clip-text transition-all duration-300">
+                      <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-orange-400 group-hover:to-pink-400 group-hover:bg-clip-text transition-all duration-300">
                         {projects[0].title}
                       </h3>
                       <span className="text-sm text-gray-500">{projects[0].subtitle}</span>
                     </div>
                   </div>
 
-                  <p className="text-gray-400 mb-6 leading-relaxed lg:text-lg">{projects[0].description}</p>
+                  <p className="text-gray-400 mb-4 sm:mb-6 leading-relaxed text-sm sm:text-base lg:text-lg">{projects[0].description}</p>
 
-                  <div className="flex flex-wrap gap-2 mb-6">
+                  <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-4 sm:mb-6">
                     {projects[0].tags.map((tag, i) => (
                       <span key={i} className="tag-pill px-3 py-1.5 bg-white/[0.04] border border-white/[0.06] text-xs rounded-lg font-medium text-gray-300">
                         {tag}
@@ -240,7 +240,7 @@ export default function Projects() {
         )}
 
         {/* Project grid - 3D tilt cards */}
-        <div className={`grid md:grid-cols-2 gap-6 transition-all duration-500 ${animatingFilter ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'}`}>
+        <div className={`grid sm:grid-cols-2 gap-4 sm:gap-6 transition-all duration-500 ${animatingFilter ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'}`}>
           {(displayFilter === 'all' ? projects.slice(1) : filteredProjects).map((project, index) => (
             <div
               key={project.title}
@@ -290,7 +290,7 @@ export default function Projects() {
               </div>
 
               {/* Content */}
-              <div className="p-6">
+              <div className="p-4 sm:p-6">
                 <div className="mb-1">
                   <span className="text-xs text-gray-500 uppercase tracking-wider">{project.subtitle}</span>
                 </div>

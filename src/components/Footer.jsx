@@ -140,7 +140,7 @@ export default function Footer({ isAdminMode }) {
   ]
 
   return (
-    <footer ref={footerRef} className="relative pt-20 pb-8 px-4">
+    <footer ref={footerRef} className="relative pt-12 sm:pt-16 md:pt-20 pb-6 sm:pb-8 px-4 sm:px-6">
       {/* Top divider */}
       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-indigo-500/20 to-transparent"></div>
       
@@ -149,7 +149,7 @@ export default function Footer({ isAdminMode }) {
       
       <div className="max-w-6xl mx-auto relative">
         {/* Main footer content */}
-        <div className={`grid md:grid-cols-3 gap-12 mb-16 reveal-3d ${isVisible ? 'active' : ''}`}>
+        <div className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 sm:gap-10 md:gap-12 mb-10 sm:mb-16 reveal-3d ${isVisible ? 'active' : ''}`}>
           {/* Brand */}
           <div>
             <div className="flex items-center gap-3 mb-4">
@@ -208,12 +208,12 @@ export default function Footer({ isAdminMode }) {
         </div>
 
         {/* Divider */}
-        <div className="w-full h-px bg-gradient-to-r from-transparent via-white/[0.06] to-transparent mb-8"></div>
+        <div className="w-full h-px bg-gradient-to-r from-transparent via-white/[0.06] to-transparent mb-6 sm:mb-8"></div>
 
         {/* Bottom bar */}
-        <div className={`flex flex-col md:flex-row justify-between items-center gap-4 reveal-3d ${isVisible ? 'active' : ''}`} style={{ transitionDelay: '0.35s' }}>
+        <div className={`flex flex-col md:flex-row justify-between items-center gap-3 sm:gap-4 reveal-3d ${isVisible ? 'active' : ''}`} style={{ transitionDelay: '0.35s' }}>
           {/* Copyright */}
-          <div className="text-gray-500 text-sm flex items-center gap-2">
+          <div className="text-gray-500 text-xs sm:text-sm flex items-center gap-2">
             {isEditingYear && isAdminMode ? (
               <div className="flex items-center gap-2">
                 <span>©</span>
@@ -248,7 +248,7 @@ export default function Footer({ isAdminMode }) {
           </div>
 
           {/* Message */}
-          <div className="text-gray-600 text-sm flex items-center gap-2">
+          <div className="text-gray-600 text-xs sm:text-sm flex items-center gap-2 text-center">
             {isEditingMessage && isAdminMode ? (
               <div className="flex items-center gap-2">
                 <input

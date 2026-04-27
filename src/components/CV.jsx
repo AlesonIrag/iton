@@ -169,10 +169,10 @@ export default function CV() {
   return (
     <>
       {/* CV Modal with smooth transition */}
-      <div className={`fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto transition-all duration-400 ${showModal ? 'visible opacity-100' : 'invisible opacity-0 pointer-events-none'}`}>
+      <div className={`fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 overflow-y-auto transition-all duration-400 ${showModal ? 'visible opacity-100' : 'invisible opacity-0 pointer-events-none'}`}>
         <div className="absolute inset-0 bg-black/80 backdrop-blur-xl" onClick={() => setShowModal(false)} />
         
-        <div className={`relative glass rounded-3xl p-6 max-w-5xl w-full my-8 border border-white/[0.06] shadow-2xl max-h-[90vh] overflow-y-auto transition-all duration-400 ${showModal ? 'scale-100 translate-y-0' : 'scale-95 translate-y-8'}`}>
+        <div className={`relative glass rounded-2xl sm:rounded-3xl p-4 sm:p-6 max-w-5xl w-full my-4 sm:my-8 border border-white/[0.06] shadow-2xl max-h-[92vh] sm:max-h-[90vh] overflow-y-auto transition-all duration-400 ${showModal ? 'scale-100 translate-y-0' : 'scale-95 translate-y-8'}`}>
           {/* Close button */}
           <button
             onClick={() => setShowModal(false)}
@@ -182,8 +182,8 @@ export default function CV() {
           </button>
 
           {/* Profile Picture */}
-          <div className="flex justify-center mb-6">
-            <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-indigo-500 shadow-xl shadow-indigo-500/20">
+          <div className="flex justify-center mb-4 sm:mb-6">
+            <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full overflow-hidden border-3 sm:border-4 border-indigo-500 shadow-xl shadow-indigo-500/20">
               <img 
                 src="/profile.jpg" 
                 alt="Aleson Irag"
@@ -199,15 +199,15 @@ export default function CV() {
             </div>
           </div>
 
-          <h2 className="text-2xl md:text-3xl font-bold mb-6 gradient-text text-center">Curriculum Vitae</h2>
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 sm:mb-6 gradient-text text-center">Curriculum Vitae</h2>
 
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
             {/* Left Column - Personal Info */}
             <div className="md:col-span-1 space-y-4">
               {/* Contact Info */}
-              <div className="glass rounded-xl p-4">
-                <h3 className="text-lg font-bold mb-3 gradient-text">Contact</h3>
-                <div className="space-y-3 text-sm">
+              <div className="glass rounded-xl p-3 sm:p-4">
+                <h3 className="text-base sm:text-lg font-bold mb-2 sm:mb-3 gradient-text">Contact</h3>
+                <div className="space-y-2 sm:space-y-3 text-sm">
                   <div className="flex items-start gap-3">
                     <i className="fas fa-phone text-indigo-400 mt-1"></i>
                     <div>
@@ -235,9 +235,9 @@ export default function CV() {
               </div>
 
               {/* Personal Details */}
-              <div className="glass rounded-xl p-4">
-                <h3 className="text-lg font-bold mb-3 gradient-text">Personal Details</h3>
-                <div className="space-y-3 text-sm">
+              <div className="glass rounded-xl p-3 sm:p-4">
+                <h3 className="text-base sm:text-lg font-bold mb-2 sm:mb-3 gradient-text">Personal Details</h3>
+                <div className="space-y-2 sm:space-y-3 text-sm">
                   <div className="flex justify-between">
                     <span className="text-gray-400">Gender</span>
                     <span className="text-white">Male</span>
@@ -265,8 +265,8 @@ export default function CV() {
             {/* Right Column - Education & Experience */}
             <div className="md:col-span-2 space-y-4">
               {/* Education */}
-              <div className="glass rounded-xl p-4">
-                <h3 className="text-xl font-bold mb-4 gradient-text">Education</h3>
+              <div className="glass rounded-xl p-3 sm:p-4">
+                <h3 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4 gradient-text">Education</h3>
                 <div className="space-y-4">
                   {/* College - Current */}
                   <div className="relative pl-8 border-l-2 border-indigo-500">

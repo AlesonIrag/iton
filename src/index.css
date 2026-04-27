@@ -806,3 +806,64 @@ nav.scrolled {
         animation-duration: 0.01ms !important;
     }
 }
+
+/* ===== RESPONSIVE — TOUCH DEVICES ===== */
+@media (hover: none) and (pointer: coarse) {
+    .cursor-glow { display: none !important; }
+    .card-3d:hover { transform: none; }
+    .card-hover:hover { transform: none; }
+    .social-icon-magnetic:hover { transform: none; }
+    .profile-image:hover { transform: none; filter: none; }
+    .profile-image:hover::after { opacity: 0; }
+}
+
+/* ===== RESPONSIVE — TABLETS (max-width: 768px) ===== */
+@media (max-width: 768px) {
+    .back-to-top {
+        bottom: 20px;
+        right: 20px;
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        font-size: 16px;
+    }
+    .back-to-top.visible:hover {
+        transform: translateY(0) scale(1);
+    }
+    ::-webkit-scrollbar { width: 4px; }
+    body::before {
+        background:
+            radial-gradient(ellipse 100% 60% at 20% 40%, rgba(99, 102, 241, 0.08) 0%, transparent 60%),
+            radial-gradient(ellipse 80% 50% at 80% 20%, rgba(168, 85, 247, 0.06) 0%, transparent 60%);
+    }
+}
+
+/* ===== RESPONSIVE — MOBILE (max-width: 640px) ===== */
+@media (max-width: 640px) {
+    .back-to-top {
+        bottom: 16px;
+        right: 16px;
+        width: 40px;
+        height: 40px;
+        border-radius: 12px;
+    }
+    .scroll-progress { height: 2px; }
+}
+
+/* ===== RESPONSIVE — SMALL MOBILE (max-width: 380px) ===== */
+@media (max-width: 380px) {
+    .back-to-top {
+        bottom: 12px;
+        right: 12px;
+        width: 36px;
+        height: 36px;
+        font-size: 14px;
+    }
+}
+
+/* ===== SAFE AREA INSETS (notched phones) ===== */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+    .back-to-top {
+        bottom: calc(16px + env(safe-area-inset-bottom));
+    }
+}

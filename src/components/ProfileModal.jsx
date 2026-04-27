@@ -157,23 +157,23 @@ export default function ProfileModal({ target, onClose }) {
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-75">
-      <div className="bg-gray-800 rounded-2xl p-6 max-w-md w-full">
-        <h2 className="text-2xl font-bold mb-6">Change Profile Picture</h2>
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black bg-opacity-75">
+      <div className="bg-gray-800 rounded-2xl p-4 sm:p-6 max-w-md w-full max-h-[90vh] overflow-y-auto">
+        <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">Change Profile Picture</h2>
         
         {/* Preview */}
-        <div className="mb-6">
+        <div className="mb-4 sm:mb-6">
           <div className="w-full aspect-square bg-gray-700 rounded-xl overflow-hidden flex items-center justify-center">
             {previewImage ? (
               <img src={previewImage} alt="Preview" className="w-full h-full object-cover" />
             ) : (
-              <i className="fas fa-user text-6xl text-gray-500"></i>
+              <i className="fas fa-user text-5xl sm:text-6xl text-gray-500"></i>
             )}
           </div>
         </div>
 
         {/* Upload Options */}
-        <div className="space-y-4 mb-6">
+        <div className="space-y-3 sm:space-y-4 mb-4 sm:mb-6">
           <input 
             type="file" 
             id="file-input" 
@@ -184,33 +184,33 @@ export default function ProfileModal({ target, onClose }) {
           
           <button 
             onClick={() => document.getElementById('file-input').click()}
-            className="w-full bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-xl font-semibold transition-colors"
+            className="w-full bg-blue-600 hover:bg-blue-700 px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl font-semibold transition-colors text-sm sm:text-base"
           >
-            <i className="fas fa-upload mr-3"></i>
+            <i className="fas fa-upload mr-2 sm:mr-3"></i>
             Upload from Device
           </button>
 
           <button 
             onClick={generateRandomAvatar}
-            className="w-full bg-purple-600 hover:bg-purple-700 px-6 py-3 rounded-xl font-semibold transition-colors"
+            className="w-full bg-purple-600 hover:bg-purple-700 px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl font-semibold transition-colors text-sm sm:text-base"
           >
-            <i className="fas fa-dice mr-3"></i>
+            <i className="fas fa-dice mr-2 sm:mr-3"></i>
             Generate Random Avatar
           </button>
         </div>
 
         {/* Action Buttons */}
-        <div className="flex space-x-4">
+        <div className="flex space-x-3 sm:space-x-4">
           <button 
             onClick={onClose}
-            className="flex-1 bg-gray-700 hover:bg-gray-600 px-6 py-3 rounded-xl font-semibold transition-colors"
+            className="flex-1 bg-gray-700 hover:bg-gray-600 px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl font-semibold transition-colors text-sm sm:text-base"
           >
             Cancel
           </button>
           <button 
             onClick={saveProfilePicture}
             disabled={isUploading}
-            className="flex-1 bg-green-600 hover:bg-green-700 px-6 py-3 rounded-xl font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex-1 bg-green-600 hover:bg-green-700 px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base"
           >
             {isUploading ? 'Uploading...' : 'Save Changes'}
           </button>

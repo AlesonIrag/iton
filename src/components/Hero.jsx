@@ -76,21 +76,21 @@ export default function Hero({ openProfileModal, isAdminMode }) {
   return (
     <section 
       id="home" 
-      className="relative min-h-screen flex items-center justify-center pt-20 px-4 overflow-hidden perspective-container"
+      className="relative min-h-screen flex items-center justify-center pt-16 sm:pt-20 px-4 sm:px-6 overflow-hidden perspective-container"
       onMouseMove={handleMouseMove}
     >
       {/* Animated background orbs with 3D parallax */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none preserve-3d">
         <div 
-          className="absolute top-1/4 left-[10%] w-[500px] h-[500px] bg-indigo-600/[0.07] rounded-full filter blur-[120px] animate-morph"
+          className="absolute top-1/4 left-[10%] w-[250px] h-[250px] sm:w-[350px] sm:h-[350px] md:w-[500px] md:h-[500px] bg-indigo-600/[0.07] rounded-full filter blur-[80px] sm:blur-[100px] md:blur-[120px] animate-morph"
           style={{ transform: `translate3d(${mousePos.x * -30}px, ${mousePos.y * -30}px, -50px)` }}
         />
         <div 
-          className="absolute top-1/3 right-[5%] w-[400px] h-[400px] bg-purple-600/[0.08] rounded-full filter blur-[100px] animate-morph"
+          className="absolute top-1/3 right-[5%] w-[200px] h-[200px] sm:w-[300px] sm:h-[300px] md:w-[400px] md:h-[400px] bg-purple-600/[0.08] rounded-full filter blur-[80px] sm:blur-[100px] animate-morph"
           style={{ animationDelay: '2s', transform: `translate3d(${mousePos.x * 20}px, ${mousePos.y * 20}px, -30px)` }}
         />
         <div 
-          className="absolute bottom-[10%] left-1/3 w-[350px] h-[350px] bg-pink-600/[0.06] rounded-full filter blur-[100px] animate-morph"
+          className="absolute bottom-[10%] left-1/3 w-[180px] h-[180px] sm:w-[250px] sm:h-[250px] md:w-[350px] md:h-[350px] bg-pink-600/[0.06] rounded-full filter blur-[80px] sm:blur-[100px] animate-morph"
           style={{ animationDelay: '4s', transform: `translate3d(${mousePos.x * -15}px, ${mousePos.y * 15}px, -40px)` }}
         />
 
@@ -109,29 +109,29 @@ export default function Hero({ openProfileModal, isAdminMode }) {
         }}
       >
         {/* Status badge */}
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-500/[0.08] border border-indigo-500/[0.15] mb-8 animate-fade-in"
+        <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-indigo-500/[0.08] border border-indigo-500/[0.15] mb-6 sm:mb-8 animate-fade-in"
           style={{ transform: 'translateZ(40px)' }}
         >
-          <span className="relative flex h-2.5 w-2.5">
+          <span className="relative flex h-2 w-2 sm:h-2.5 sm:w-2.5">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-400"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 sm:h-2.5 sm:w-2.5 bg-green-400"></span>
           </span>
-          <span className="text-sm text-gray-300 font-medium">Available for work</span>
+          <span className="text-xs sm:text-sm text-gray-300 font-medium">Available for work</span>
         </div>
 
         {/* Profile Image with 3D floating ring */}
-        <div className="mb-10 flex justify-center animate-fade-in" style={{ animationDelay: '0.1s' }}>
+        <div className="mb-8 sm:mb-10 flex justify-center animate-fade-in" style={{ animationDelay: '0.1s' }}>
           <div className="relative" style={{ transform: 'translateZ(60px)', transformStyle: 'preserve-3d' }}>
             {/* Orbiting ring */}
-            <div className="absolute inset-[-20px] rounded-full border border-indigo-500/20 animate-spin" 
+            <div className="absolute inset-[-12px] sm:inset-[-20px] rounded-full border border-indigo-500/20 animate-spin" 
               style={{ animationDuration: '12s', transform: 'rotateX(60deg) translateZ(5px)' }} 
             />
-            <div className="absolute inset-[-30px] rounded-full border border-purple-500/10 animate-spin" 
+            <div className="absolute inset-[-18px] sm:inset-[-30px] rounded-full border border-purple-500/10 animate-spin" 
               style={{ animationDuration: '18s', animationDirection: 'reverse', transform: 'rotateX(75deg) rotateZ(30deg) translateZ(10px)' }} 
             />
             
             <div 
-              className={`w-40 h-40 md:w-48 md:h-48 rounded-full overflow-hidden relative ring-2 ring-indigo-500/20 ring-offset-4 ring-offset-[#030712] ${isAdminMode ? 'profile-image cursor-pointer' : 'cursor-default'}`}
+              className={`w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 rounded-full overflow-hidden relative ring-2 ring-indigo-500/20 ring-offset-2 sm:ring-offset-4 ring-offset-[#030712] ${isAdminMode ? 'profile-image cursor-pointer' : 'cursor-default'}`}
               onClick={() => openProfileModal('hero')}
               style={{ 
                 boxShadow: '0 0 60px rgba(99, 102, 241, 0.15), 0 0 120px rgba(99, 102, 241, 0.05)',
@@ -155,7 +155,7 @@ export default function Hero({ openProfileModal, isAdminMode }) {
         </div>
         
         {/* Name with animated gradient - 3D depth */}
-        <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 tracking-tight animate-fade-in" 
+        <h1 className="text-3xl xs:text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold mb-4 sm:mb-6 tracking-tight animate-fade-in" 
           style={{ animationDelay: '0.2s', transform: 'translateZ(30px)' }}
         >
           <span className="text-white">Aleson </span>
@@ -163,7 +163,7 @@ export default function Hero({ openProfileModal, isAdminMode }) {
         </h1>
 
         {/* Typewriter role - floating */}
-        <div className="text-xl md:text-2xl text-gray-400 mb-10 h-8 animate-fade-in font-light" 
+        <div className="text-base sm:text-xl md:text-2xl text-gray-400 mb-8 sm:mb-10 min-h-[28px] sm:min-h-[32px] animate-fade-in font-light" 
           style={{ animationDelay: '0.4s', transform: 'translateZ(20px)' }}
         >
           <span>{typedText}</span>
@@ -171,23 +171,23 @@ export default function Hero({ openProfileModal, isAdminMode }) {
         </div>
 
         {/* CTA Buttons - elevated */}
-        <div className="flex flex-wrap justify-center gap-4 animate-fade-in" 
+        <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-3 sm:gap-4 animate-fade-in w-full sm:w-auto px-4 sm:px-0" 
           style={{ animationDelay: '0.6s', transform: 'translateZ(50px)' }}
         >
           <a 
             href="#projects" 
-            className="btn-primary group relative px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl font-semibold overflow-hidden transition-all duration-300 hover:scale-[1.03] hover:shadow-2xl hover:shadow-indigo-500/30"
+            className="btn-primary group relative px-6 sm:px-8 py-3.5 sm:py-4 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl font-semibold overflow-hidden transition-all duration-300 hover:scale-[1.03] hover:shadow-2xl hover:shadow-indigo-500/30 text-center text-sm sm:text-base"
           >
-            <span className="relative z-10 flex items-center gap-2">
+            <span className="relative z-10 flex items-center justify-center gap-2">
               <span>View My Work</span>
               <i className="fas fa-arrow-right text-sm group-hover:translate-x-1 transition-transform"></i>
             </span>
           </a>
           <a 
             href="#contact" 
-            className="group px-8 py-4 rounded-2xl font-semibold border border-white/[0.1] bg-white/[0.02] hover:bg-white/[0.06] transition-all duration-300 hover:scale-[1.03] hover:border-indigo-500/30"
+            className="group px-6 sm:px-8 py-3.5 sm:py-4 rounded-2xl font-semibold border border-white/[0.1] bg-white/[0.02] hover:bg-white/[0.06] transition-all duration-300 hover:scale-[1.03] hover:border-indigo-500/30 text-center text-sm sm:text-base"
           >
-            <span className="flex items-center gap-2">
+            <span className="flex items-center justify-center gap-2">
               <span>Contact Me</span>
               <i className="fas fa-paper-plane text-sm text-indigo-400 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"></i>
             </span>

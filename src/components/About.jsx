@@ -53,7 +53,7 @@ export default function About({ openProfileModal, isAdminMode }) {
   ]
 
   return (
-    <section id="about" ref={sectionRef} className="relative py-28 px-4">
+    <section id="about" ref={sectionRef} className="relative py-16 sm:py-20 md:py-28 px-4 sm:px-6">
       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-indigo-500/20 to-transparent"></div>
       
       <div className="max-w-6xl mx-auto perspective-container">
@@ -62,15 +62,15 @@ export default function About({ openProfileModal, isAdminMode }) {
           <span className="inline-block px-4 py-1.5 rounded-full bg-indigo-500/[0.08] border border-indigo-500/[0.15] text-indigo-300 text-sm font-medium mb-4">
             <i className="fas fa-user mr-2"></i>About Me
           </span>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold gradient-text">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold gradient-text">
             Get To Know Me
           </h2>
-          <p className="text-gray-500 mt-4 max-w-lg mx-auto">
+          <p className="text-gray-500 mt-3 sm:mt-4 max-w-lg mx-auto text-sm sm:text-base">
             Passionate developer crafting digital experiences
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
+        <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center">
           {/* Profile Image with 3D tilt */}
           <div className={`reveal-3d ${isVisible ? 'active' : ''}`} style={{ transitionDelay: '0.15s' }}>
             <div 
@@ -106,36 +106,36 @@ export default function About({ openProfileModal, isAdminMode }) {
 
           {/* Content */}
           <div className={`space-y-6 reveal-3d ${isVisible ? 'active' : ''}`} style={{ transitionDelay: '0.25s' }}>
-            <div className="glass-3d rounded-2xl p-6 glow-border-hover">
-              <p className="text-lg text-gray-300 leading-relaxed">
+            <div className="glass-3d rounded-2xl p-4 sm:p-6 glow-border-hover">
+              <p className="text-base sm:text-lg text-gray-300 leading-relaxed">
                 Hi! I'm <span className="gradient-text font-bold">Aleson</span>, a passionate frontend developer specializing in creating stunning,
                 responsive, and user-friendly web interfaces. I love bringing designs to life with modern web technologies.
               </p>
             </div>
-            <div className="glass-3d rounded-2xl p-6 glow-border-hover">
-              <p className="text-lg text-gray-300 leading-relaxed">
+            <div className="glass-3d rounded-2xl p-4 sm:p-6 glow-border-hover">
+              <p className="text-base sm:text-lg text-gray-300 leading-relaxed">
                 With expertise in React, JavaScript, and modern CSS frameworks, I craft beautiful digital experiences
                 that are both visually appealing and highly functional.
               </p>
             </div>
 
             {/* Stats with 3D cards */}
-            <div className="grid grid-cols-3 gap-4 pt-4">
+            <div className="grid grid-cols-3 gap-2 sm:gap-4 pt-4">
               {stats.map((stat, index) => (
-                <div key={index} className="glass-3d rounded-2xl p-5 text-center card-3d glow-border-hover group"
+                <div key={index} className="glass-3d rounded-xl sm:rounded-2xl p-3 sm:p-5 text-center card-3d glow-border-hover group"
                   style={{ transitionDelay: `${0.3 + index * 0.1}s` }}
                 >
-                  <div className="text-indigo-400 mb-2 group-hover:scale-110 transition-transform" style={{ transform: 'translateZ(15px)' }}>
-                    <i className={`${stat.icon} text-lg`}></i>
+                  <div className="text-indigo-400 mb-1 sm:mb-2 group-hover:scale-110 transition-transform" style={{ transform: 'translateZ(15px)' }}>
+                    <i className={`${stat.icon} text-sm sm:text-lg`}></i>
                   </div>
-                  <div className="text-3xl font-bold gradient-text" style={{ transform: 'translateZ(20px)' }}>
+                  <div className="text-xl sm:text-3xl font-bold gradient-text" style={{ transform: 'translateZ(20px)' }}>
                     <AnimatedCounter 
                       target={stat.value} 
                       suffix={stat.suffix} 
                       started={countersStarted} 
                     />
                   </div>
-                  <div className="text-xs text-gray-500 mt-1 uppercase tracking-wider">{stat.label}</div>
+                  <div className="text-[9px] sm:text-xs text-gray-500 mt-1 uppercase tracking-wider">{stat.label}</div>
                 </div>
               ))}
             </div>
