@@ -1,7 +1,6 @@
 import { useRef, useMemo } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { Float, Stars } from '@react-three/drei'
-import { EffectComposer, Bloom } from '@react-three/postprocessing'
 import * as THREE from 'three'
 
 /* ===== NEON GRID FLOOR (Tron / retro-wave style) ===== */
@@ -37,12 +36,12 @@ function NeonGrid() {
   return (
     <group ref={gridRef} position={[0, -3, 0]} rotation={[0, 0, 0]}>
       <lineSegments geometry={gridGeo}>
-        <lineBasicMaterial color="#6366f1" transparent opacity={0.12} />
+        <lineBasicMaterial color="#6366f1" transparent opacity={0.18} />
       </lineSegments>
       {/* Glow plane under grid */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.05, 0]}>
         <planeGeometry args={[40, 40]} />
-        <meshBasicMaterial color="#6366f1" transparent opacity={0.015} side={THREE.DoubleSide} />
+        <meshBasicMaterial color="#6366f1" transparent opacity={0.025} side={THREE.DoubleSide} />
       </mesh>
     </group>
   )
@@ -67,12 +66,12 @@ function GameShape({ position, geometry, color, speed = 1, scale = 1 }) {
         {/* Wireframe shape */}
         <mesh ref={meshRef}>
           {geometry}
-          <meshBasicMaterial color={color} wireframe transparent opacity={0.35} />
+          <meshBasicMaterial color={color} wireframe transparent opacity={0.45} />
         </mesh>
         {/* Inner glow */}
         <mesh ref={glowRef}>
           {geometry}
-          <meshBasicMaterial color={color} transparent opacity={0.04} />
+          <meshBasicMaterial color={color} transparent opacity={0.08} />
         </mesh>
       </group>
     </Float>
@@ -137,10 +136,10 @@ function ParticleStream({ count = 400 }) {
         <bufferAttribute attach="attributes-color" count={count} array={colors} itemSize={3} />
       </bufferGeometry>
       <pointsMaterial
-        size={0.035}
+        size={0.04}
         vertexColors
         transparent
-        opacity={0.7}
+        opacity={0.8}
         sizeAttenuation
         blending={THREE.AdditiveBlending}
         depthWrite={false}
@@ -162,7 +161,7 @@ function OrbitRing({ radius = 5, color = '#818cf8', speed = 0.3, tilt = 0 }) {
   return (
     <mesh ref={ringRef} rotation={[tilt, 0, 0]}>
       <torusGeometry args={[radius, 0.008, 8, 100]} />
-      <meshBasicMaterial color={color} transparent opacity={0.2} />
+      <meshBasicMaterial color={color} transparent opacity={0.3} />
     </mesh>
   )
 }
@@ -201,9 +200,9 @@ export default function Scene3D() {
         style={{ background: 'transparent' }}
       >
         {/* Ambient lighting */}
-        <ambientLight intensity={0.1} />
-        <pointLight position={[10, 10, 5]} intensity={0.3} color="#818cf8" />
-        <pointLight position={[-8, -5, -10]} intensity={0.2} color="#a855f7" />
+        <ambientLight intensity={0.15} />
+        <pointLight position={[10, 10, 5]} intensity={0.4} color="#818cf8" />
+        <pointLight position={[-8, -5, -10]} intensity={0.3} color="#a855f7" />
 
         {/* Deep space stars */}
         <Stars radius={60} depth={60} count={2000} factor={3} saturation={0.3} fade speed={0.4} />
@@ -231,16 +230,6 @@ export default function Scene3D() {
 
         {/* Scroll camera */}
         <CameraRig />
-
-        {/* Post-processing bloom for neon glow */}
-        <EffectComposer>
-          <Bloom
-            luminanceThreshold={0.1}
-            luminanceSmoothing={0.9}
-            intensity={1.2}
-            mipmapBlur
-          />
-        </EffectComposer>
       </Canvas>
     </div>
   )
