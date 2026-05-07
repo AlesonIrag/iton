@@ -37,7 +37,7 @@ export default function Contact() {
 
     const subject = `Portfolio Contact from ${formData.name}`
     const body = `Name: ${formData.name}%0D%0AEmail: ${formData.email}%0D%0A%0D%0AMessage:%0D%0A${formData.message}`
-    const mailtoLink = `mailto:alesoncirag@gmail.com?subject=${encodeURIComponent(subject)}&body=${body}`
+    const mailtoLink = `mailto:iragaleson@gmail.com?subject=${encodeURIComponent(subject)}&body=${body}`
     
     try {
       const templateParams = {
@@ -104,7 +104,7 @@ export default function Contact() {
   }, [])
 
   const contactMethods = [
-    { icon: 'fas fa-envelope', label: 'Email', value: 'alesoncirag@gmail.com', href: 'mailto:alesoncirag@gmail.com', color: '#ef4444' },
+    { icon: 'fas fa-envelope', label: 'Email', value: 'iragaleson@gmail.com', href: 'mailto:iragaleson@gmail.com', color: '#ef4444' },
     { icon: 'fab fa-github', label: 'GitHub', value: 'AlesonIrag', href: 'https://github.com/AlesonIrag', color: '#f1f5f9' },
     { icon: 'fab fa-facebook', label: 'Facebook', value: 'Aleson420', href: 'https://www.facebook.com/Aleson420', color: '#3b82f6' },
   ]

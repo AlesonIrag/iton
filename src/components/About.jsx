@@ -150,7 +150,7 @@ export default function About({ openProfileModal, isAdminMode }) {
                 className="glass-3d w-12 h-12 rounded-xl flex items-center justify-center social-icon-magnetic hover:shadow-lg hover:shadow-blue-500/20 group">
                 <i className="fab fa-facebook text-xl text-gray-400 group-hover:text-blue-400 transition-colors"></i>
               </a>
-              <a href="mailto:alesoncirag@gmail.com"
+              <a href="mailto:iragaleson@gmail.com"
                 className="glass-3d w-12 h-12 rounded-xl flex items-center justify-center social-icon-magnetic hover:shadow-lg hover:shadow-red-500/20 group">
                 <i className="fas fa-envelope text-xl text-gray-400 group-hover:text-red-400 transition-colors"></i>
               </a>
