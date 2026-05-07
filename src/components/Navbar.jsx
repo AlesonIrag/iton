@@ -1,4 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
+import { db } from '../firebase'
+import { ref, get } from 'firebase/database'
 
 export default function Navbar({ isAdminMode, toggleAdminMode }) {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -6,6 +8,7 @@ export default function Navbar({ isAdminMode, toggleAdminMode }) {
   const [clickCount, setClickCount] = useState(0)
   const [clickTimeout, setClickTimeout] = useState(null)
   const [activeSection, setActiveSection] = useState('home')
+  const [profileImage, setProfileImage] = useState(null)
   const navContainerRef = useRef(null)
   const indicatorRef = useRef(null)
 
@@ -17,6 +20,28 @@ export default function Navbar({ isAdminMode, toggleAdminMode }) {
     { id: 'cv', label: 'CV', icon: 'fas fa-file-alt', isCV: true },
     { id: 'contact', label: 'Contact', icon: 'fas fa-envelope' },
   ]
+
+  // Load profile image
+  useEffect(() => {
+    const loadProfileImage = async () => {
+      try {
+        const dbRef = ref(db, 'portfolio/profile')
+        const snapshot = await get(dbRef)
+        
+        if (snapshot.exists()) {
+          const data = snapshot.val()
+          setProfileImage(data.imageUrl)
+        } else {
+          setProfileImage('/profile.jpg')
+        }
+      } catch (error) {
+        console.error('Error loading profile:', error)
+        setProfileImage('/profile.jpg')
+      }
+    }
+
+    loadProfileImage()
+  }, [])
 
   // Update sliding indicator position
   const updateIndicator = useCallback(() => {
@@ -94,8 +119,18 @@ export default function Navbar({ isAdminMode, toggleAdminMode }) {
               className="flex items-center gap-3 cursor-default select-none group"
               onClick={handleLogoClick}
             >
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold text-lg shadow-lg shadow-indigo-500/20 group-hover:shadow-indigo-500/40 transition-all duration-300 group-hover:scale-105">
-                A
+              <div className="w-10 h-10 rounded-xl overflow-hidden flex items-center justify-center shadow-lg shadow-indigo-500/20 group-hover:shadow-indigo-500/40 transition-all duration-300 group-hover:scale-105 ring-2 ring-indigo-500/20">
+                {profileImage ? (
+                  <img 
+                    src={profileImage} 
+                    alt="Aleson Irag"
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold text-lg">
+                    A
+                  </div>
+                )}
               </div>
               <span className="text-lg font-semibold tracking-tight">
                 <span className="text-white">Aleson</span>

@@ -6,6 +6,7 @@ import useScrollReveal from '../hooks/useScrollReveal'
 export default function Footer({ isAdminMode }) {
   const [year, setYear] = useState('')
   const [message, setMessage] = useState('')
+  const [profileImage, setProfileImage] = useState(null)
   const [isEditingYear, setIsEditingYear] = useState(false)
   const [isEditingMessage, setIsEditingMessage] = useState(false)
   const [isSaving, setIsSaving] = useState(false)
@@ -56,7 +57,25 @@ export default function Footer({ isAdminMode }) {
       }
     }
 
+    const loadProfileImage = async () => {
+      try {
+        const dbRef = ref(db, 'portfolio/profile')
+        const snapshot = await get(dbRef)
+        
+        if (snapshot.exists()) {
+          const data = snapshot.val()
+          setProfileImage(data.imageUrl)
+        } else {
+          setProfileImage('/profile.jpg')
+        }
+      } catch (error) {
+        console.error('Error loading profile:', error)
+        setProfileImage('/profile.jpg')
+      }
+    }
+
     loadFooterData()
+    loadProfileImage()
   }, [])
 
   const generateRandomMessage = () => {
@@ -153,8 +172,18 @@ export default function Footer({ isAdminMode }) {
           {/* Brand */}
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold shadow-lg shadow-indigo-500/20">
-                A
+              <div className="w-10 h-10 rounded-xl overflow-hidden flex items-center justify-center shadow-lg shadow-indigo-500/20">
+                {profileImage ? (
+                  <img 
+                    src={profileImage} 
+                    alt="Aleson Irag"
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold">
+                    A
+                  </div>
+                )}
               </div>
               <span className="text-lg font-semibold">
                 <span className="text-white">Aleson</span>
