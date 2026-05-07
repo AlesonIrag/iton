@@ -124,7 +124,7 @@ function App() {
     <div className="App">
       {/* Preloader */}
       <div className={`preloader ${isLoaded ? 'loaded' : ''}`}>
-        <div className="preloader-logo">A</div>
+        <div className="preloader-logo"></div>
         <div className="preloader-bar">
           <div className="preloader-bar-fill"></div>
         </div>
