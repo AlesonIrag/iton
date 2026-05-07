@@ -120,22 +120,22 @@ export default function About({ openProfileModal, isAdminMode }) {
             </div>
 
             {/* Stats with 3D cards */}
-            <div className="grid grid-cols-3 gap-2 sm:gap-4 pt-4">
+            <div className="grid grid-cols-3 gap-3 sm:gap-4 pt-4">
               {stats.map((stat, index) => (
-                <div key={index} className="glass-3d rounded-xl sm:rounded-2xl p-3 sm:p-5 text-center card-3d glow-border-hover group"
+                <div key={index} className="glass-3d rounded-xl sm:rounded-2xl p-4 sm:p-5 text-center card-3d glow-border-hover group"
                   style={{ transitionDelay: `${0.3 + index * 0.1}s` }}
                 >
-                  <div className="text-indigo-400 mb-1 sm:mb-2 group-hover:scale-110 transition-transform" style={{ transform: 'translateZ(15px)' }}>
-                    <i className={`${stat.icon} text-sm sm:text-lg`}></i>
+                  <div className="text-indigo-400 mb-2 group-hover:scale-110 transition-transform" style={{ transform: 'translateZ(15px)' }}>
+                    <i className={`${stat.icon} text-base sm:text-lg`}></i>
                   </div>
-                  <div className="text-xl sm:text-3xl font-bold gradient-text" style={{ transform: 'translateZ(20px)' }}>
+                  <div className="text-2xl sm:text-3xl font-bold gradient-text" style={{ transform: 'translateZ(20px)' }}>
                     <AnimatedCounter 
                       target={stat.value} 
                       suffix={stat.suffix} 
                       started={countersStarted} 
                     />
                   </div>
-                  <div className="text-[9px] sm:text-xs text-gray-500 mt-1 uppercase tracking-wider">{stat.label}</div>
+                  <div className="text-[10px] sm:text-xs text-gray-500 mt-1 uppercase tracking-wider">{stat.label}</div>
                 </div>
               ))}
             </div>

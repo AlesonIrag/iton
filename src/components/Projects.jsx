@@ -240,7 +240,7 @@ export default function Projects() {
         )}
 
         {/* Project grid - 3D tilt cards */}
-        <div className={`grid sm:grid-cols-2 gap-4 sm:gap-6 transition-all duration-500 ${animatingFilter ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'}`}>
+        <div className={`grid sm:grid-cols-2 gap-5 sm:gap-6 transition-all duration-500 ${animatingFilter ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'}`}>
           {(displayFilter === 'all' ? projects.slice(1) : filteredProjects).map((project, index) => (
             <div
               key={project.title}
@@ -263,7 +263,7 @@ export default function Projects() {
               )}
 
               {/* Background Image with parallax */}
-              <div className="relative h-52 overflow-hidden">
+              <div className="relative h-48 sm:h-52 overflow-hidden">
                 {project.bgImage ? (
                   <img
                     src={project.bgImage}
@@ -290,11 +290,11 @@ export default function Projects() {
               </div>
 
               {/* Content */}
-              <div className="p-4 sm:p-6">
+              <div className="p-5 sm:p-6">
                 <div className="mb-1">
                   <span className="text-xs text-gray-500 uppercase tracking-wider">{project.subtitle}</span>
                 </div>
-                <h3 className="text-xl font-bold mb-3 text-white group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:bg-clip-text transition-all duration-300"
+                <h3 className="text-lg sm:text-xl font-bold mb-3 text-white group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:bg-clip-text transition-all duration-300"
                   style={{ '--tw-gradient-from': project.color, '--tw-gradient-to': '#a78bfa' }}>
                   {project.title}
                 </h3>

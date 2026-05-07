@@ -119,7 +119,7 @@ export default function Navbar({ isAdminMode, toggleAdminMode }) {
                     ? window.dispatchEvent(new CustomEvent('openCV'))
                     : scrollToSection(link.id)
                   }
-                  className={`relative px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 cursor-pointer z-10 ${
+                  className={`relative px-3 lg:px-4 py-2 rounded-full text-xs lg:text-sm font-medium transition-all duration-300 cursor-pointer z-10 ${
                     activeSection === link.id
                       ? 'text-white'
                       : 'text-gray-400 hover:text-white hover:bg-white/[0.05]'

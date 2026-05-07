@@ -130,14 +130,14 @@ export default function Contact() {
           </div>
 
           {/* Contact methods - 3D floating panels */}
-          <div className={`grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-8 sm:mb-12 reveal-3d ${isVisible ? 'active' : ''}`} style={{ transitionDelay: '0.15s' }}>
+          <div className={`grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8 sm:mb-12 reveal-3d ${isVisible ? 'active' : ''}`} style={{ transitionDelay: '0.15s' }}>
             {contactMethods.map((method, index) => (
               <a
                 key={index}
                 href={method.href}
                 target={method.href.startsWith('mailto') ? undefined : '_blank'}
                 rel="noopener noreferrer"
-                className="glass-3d rounded-2xl p-4 sm:p-5 flex items-center gap-3 sm:gap-4 card-3d glow-border-hover group"
+                className="glass-3d rounded-2xl p-5 sm:p-5 flex items-center gap-4 card-3d glow-border-hover group"
                 onMouseMove={(e) => handleCardMouseMove(e, `contact-${index}`)}
                 onMouseLeave={() => handleCardMouseLeave(`contact-${index}`)}
                 style={{
@@ -147,7 +147,7 @@ export default function Contact() {
                   transition: cardTilt[`contact-${index}`] ? 'transform 0.1s ease' : 'transform 0.5s cubic-bezier(0.23, 1, 0.32, 1)',
                 }}
               >
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform"
+                <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform"
                   style={{ background: `${method.color}15`, transform: 'translateZ(15px)' }}>
                   <i className={`${method.icon} text-lg`} style={{ color: method.color }}></i>
                 </div>

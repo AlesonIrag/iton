@@ -155,7 +155,7 @@ export default function Hero({ openProfileModal, isAdminMode }) {
         </div>
         
         {/* Name with animated gradient - 3D depth */}
-        <h1 className="text-3xl xs:text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold mb-4 sm:mb-6 tracking-tight animate-fade-in" 
+        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-4 sm:mb-6 tracking-tight animate-fade-in px-4" 
           style={{ animationDelay: '0.2s', transform: 'translateZ(30px)' }}
         >
           <span className="text-white">Aleson </span>
@@ -163,7 +163,7 @@ export default function Hero({ openProfileModal, isAdminMode }) {
         </h1>
 
         {/* Typewriter role - floating */}
-        <div className="text-base sm:text-xl md:text-2xl text-gray-400 mb-8 sm:mb-10 min-h-[28px] sm:min-h-[32px] animate-fade-in font-light" 
+        <div className="text-lg sm:text-xl md:text-2xl text-gray-400 mb-8 sm:mb-10 min-h-[32px] sm:min-h-[36px] animate-fade-in font-light px-4" 
           style={{ animationDelay: '0.4s', transform: 'translateZ(20px)' }}
         >
           <span>{typedText}</span>
@@ -171,12 +171,12 @@ export default function Hero({ openProfileModal, isAdminMode }) {
         </div>
 
         {/* CTA Buttons - elevated */}
-        <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-3 sm:gap-4 animate-fade-in w-full sm:w-auto px-4 sm:px-0" 
+        <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-3 sm:gap-4 animate-fade-in w-full px-4 max-w-md sm:max-w-none mx-auto" 
           style={{ animationDelay: '0.6s', transform: 'translateZ(50px)' }}
         >
           <a 
             href="#projects" 
-            className="btn-primary group relative px-6 sm:px-8 py-3.5 sm:py-4 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl font-semibold overflow-hidden transition-all duration-300 hover:scale-[1.03] hover:shadow-2xl hover:shadow-indigo-500/30 text-center text-sm sm:text-base"
+            className="btn-primary group relative px-6 sm:px-8 py-3.5 sm:py-4 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl font-semibold overflow-hidden transition-all duration-300 hover:scale-[1.03] hover:shadow-2xl hover:shadow-indigo-500/30 text-center text-sm sm:text-base w-full sm:w-auto"
           >
             <span className="relative z-10 flex items-center justify-center gap-2">
               <span>View My Work</span>
@@ -185,7 +185,7 @@ export default function Hero({ openProfileModal, isAdminMode }) {
           </a>
           <a 
             href="#contact" 
-            className="group px-6 sm:px-8 py-3.5 sm:py-4 rounded-2xl font-semibold border border-white/[0.1] bg-white/[0.02] hover:bg-white/[0.06] transition-all duration-300 hover:scale-[1.03] hover:border-indigo-500/30 text-center text-sm sm:text-base"
+            className="group px-6 sm:px-8 py-3.5 sm:py-4 rounded-2xl font-semibold border border-white/[0.1] bg-white/[0.02] hover:bg-white/[0.06] transition-all duration-300 hover:scale-[1.03] hover:border-indigo-500/30 text-center text-sm sm:text-base w-full sm:w-auto"
           >
             <span className="flex items-center justify-center gap-2">
               <span>Contact Me</span>
